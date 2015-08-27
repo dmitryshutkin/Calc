@@ -1,7 +1,10 @@
 #ifndef CALCOPERATION
 #define CALCOPERATION
+
 #pragma once
-//#include "CalculationTree.h"
+
+
+extern class CalculationTree;
 
 class CalcOperation
 {
@@ -9,7 +12,7 @@ private:
 	int origin;
 public:
 	CalcOperation() : origin(0) { };
-	int operator() (int, int);
+	int operator() (CalculationTree, CalculationTree);
 	
 };
 

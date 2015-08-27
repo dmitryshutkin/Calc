@@ -3,5 +3,5 @@
 
 int CalculationTree::result()
 {
-	return calcOp.operator()(0,0);
+	return 0;
 }

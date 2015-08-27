@@ -1,8 +1,11 @@
 #ifndef CALCULATIONTREE
 #define CALCULATIONTREE
+
 #pragma once
+
 #include "CalcOperation.h"
 #include <string>
+
 
 class CalculationTree
 {
