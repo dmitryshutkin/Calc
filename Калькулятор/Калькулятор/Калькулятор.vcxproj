@@ -119,12 +119,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CalculationTree.cpp" />
-    <ClCompile Include="CalcOperation.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CalculationTree.h" />
-    <ClInclude Include="CalcOperation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -20,10 +20,10 @@ int main(void)
 	CalculationTree calc(str);  // Конструируем дерево вычислений
 
 	// Вывод результата
-	cout << "\nРезультат:" << calc.result() << endl;
+	cout << "Результат: " << calc.result() << endl;
 
 	// Возврат управления ОС
-	cout << "Тестовая заглушка. Код возврата -1" << endl;
+	cout << "\nТестовая заглушка. \nКод возврата -1" << endl;
 	cin.get(); cin.get();
 	return -1;
 }

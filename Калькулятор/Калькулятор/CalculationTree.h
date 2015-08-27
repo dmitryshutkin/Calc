@@ -1,8 +1,18 @@
 #ifndef CALCULATIONTREE
 #define CALCULATIONTREE
 #pragma once
-#include "CalcOperation.h"
 #include <string>
+
+class CalculationTree;
+
+class CalcOperation
+{
+private:
+	int origin;
+public:
+	CalcOperation() : origin(0) { };
+	int operator() (CalculationTree, CalculationTree);
+};
 
 class CalculationTree
 {

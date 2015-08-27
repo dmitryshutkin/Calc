@@ -21,15 +21,9 @@
     <ClCompile Include="CalculationTree.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="CalcOperation.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CalculationTree.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="CalcOperation.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
