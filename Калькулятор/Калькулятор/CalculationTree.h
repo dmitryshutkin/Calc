@@ -1,13 +1,17 @@
+#ifndef CALCULATIONTREE
+#define CALCULATIONTREE
 #pragma once
-#include "Operation.h"
+#include "CalcOperation.h"
+#include <string>
 
 class CalculationTree
 {
 private:
-	CalculationTree * a;
-	Operation op;
-	CalculationTree * b;
-	CalculationTree(string);
+	CalculationTree	* a, * b;
+	CalcOperation calcOp;
 public:
 	int result();
+	CalculationTree(std::string str) : a(nullptr), b(nullptr) { };
 };
+
+#endif

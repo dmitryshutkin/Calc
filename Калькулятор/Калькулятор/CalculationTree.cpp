@@ -1,6 +1,7 @@
 #include "CalculationTree.h"
+#include "CalcOperation.h"
 
 int CalculationTree::result()
 {
-	return 0;
+	return calcOp.operator()(0,0);
 }
