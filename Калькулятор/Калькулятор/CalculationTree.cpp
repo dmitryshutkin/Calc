@@ -3,5 +3,5 @@
 
 int CalculationTree::result()
 {
-	return 0;
+	return calcOp(*a, *b);
 }
