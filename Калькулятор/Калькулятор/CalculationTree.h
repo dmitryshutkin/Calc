@@ -7,17 +7,15 @@ class CalculationTree;
 
 class CalcOperation
 {
-private:
-	int origin;
 public:
-	CalcOperation() : origin(0) { };
-	int operator() (CalculationTree, CalculationTree);
+	int result(CalculationTree *, CalculationTree *);
+	int operator() (CalculationTree *, CalculationTree *);
 };
 
 class CalculationTree
 {
 private:
-	CalculationTree	* a, * b;
+	CalculationTree	*a, *b;
 	CalcOperation calcOp;
 public:
 	int result();

@@ -3,11 +3,16 @@
 
 int CalculationTree::result()
 {
-	return 0/*calcOp(0,0)*/;
+	return calcOp.result(a, b);
 }
 
 
-int CalcOperation::operator()(CalculationTree a, CalculationTree b)
+int CalcOperation::result(CalculationTree * a, CalculationTree * b)
+{
+	return 0;
+}
+
+int CalcOperation::operator()(CalculationTree * a, CalculationTree * b)
 {
 	return 0;
 }
