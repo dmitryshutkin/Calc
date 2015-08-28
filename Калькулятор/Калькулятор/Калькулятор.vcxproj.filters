@@ -18,18 +18,18 @@
     <ClCompile Include="Source.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="CalculationTree.cpp">
+    <ClCompile Include="CalcOperation.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="CalcOperation.cpp">
+    <ClCompile Include="CalcTree.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CalculationTree.h">
+    <ClInclude Include="CalcOperation.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="CalcOperation.h">
+    <ClInclude Include="CalcTree.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

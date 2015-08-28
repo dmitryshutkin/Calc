@@ -1,3 +1,3 @@
 # Calc
 
-Testing task
+Simple task

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "CalculationTree.h"
+#include "CalcTree.h"
 
 
 using namespace std;
@@ -17,13 +17,13 @@ int main(void)
 	cout << "Вы ввели строку: " << str << endl;
 
 	// Парсинг и вычисление
-	CalculationTree calc(str);  // Конструируем дерево вычислений
+	CalcTree calc(str);  // Конструируем дерево вычислений
 
 	// Вывод результата
 	cout << "\nРезультат:" << calc.result() << endl;
 
 	// Возврат управления ОС
-	cout << "Тестовая заглушка. Код возврата -1" << endl;
+	cout << "Тестовая версия - код возврата -1" << endl;
 	cin.get(); cin.get();
 	return -1;
 }

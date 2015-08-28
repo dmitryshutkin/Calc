@@ -1,7 +1,7 @@
 #include "CalcOperation.h"
-#include "CalculationTree.h"
+#include "CalcTree.h"
 
-int CalcOperation::operator()(CalculationTree * a, CalculationTree * b)
+int CalcOperation::operator()(CalcTree * a, CalcTree * b)
 {
 	return 0;
 }

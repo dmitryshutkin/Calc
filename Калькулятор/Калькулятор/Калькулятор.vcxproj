@@ -118,12 +118,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CalculationTree.cpp" />
+    <ClCompile Include="CalcTree.cpp" />
     <ClCompile Include="CalcOperation.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CalculationTree.h" />
+    <ClInclude Include="CalcTree.h" />
     <ClInclude Include="CalcOperation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

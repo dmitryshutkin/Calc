@@ -4,12 +4,12 @@
 #pragma once
 
 
-extern class CalculationTree;
+class CalcTree;
 
 class CalcOperation
 {
 public:
-	int operator() (CalculationTree *, CalculationTree *);
+	int operator() (CalcTree *, CalcTree *);
 };
 
 #endif
