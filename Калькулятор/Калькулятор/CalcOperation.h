@@ -9,7 +9,7 @@ extern class CalculationTree;
 class CalcOperation
 {
 public:
-	int operator() (CalculationTree, CalculationTree);
+	int operator() (CalculationTree *, CalculationTree *);
 };
 
 #endif
