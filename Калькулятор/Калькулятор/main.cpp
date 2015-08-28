@@ -17,13 +17,13 @@ int main(void)
 	cout << "Вы ввели строку: " << str << endl;
 
 	// Парсинг и вычисление
-	CalcTree calc(str);  // Конструируем дерево вычислений
+	CalcTree calcTree(str);  // Конструируем дерево вычислений
 
 	// Вывод результата
-	cout << "\nРезультат:" << calc.result() << endl;
-
-	// Возврат управления ОС
+	cout << "\nРезультат:" << calcTree.result() << endl;
 	cout << "Тестовая версия - код возврата -1" << endl;
 	cin.get(); cin.get();
+	
+	// Возврат управления ОС
 	return -1;
 }
