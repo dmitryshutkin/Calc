@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <locale>
 #include "CalcTree.h"
 
 
@@ -20,10 +21,10 @@ int main(void)
 	CalcTree calcTree(str);  // Конструируем дерево вычислений
 
 	// Вывод результата
-	cout << "\nРезультат:" << calcTree.result() << endl;
+	cout << endl << "Результат:" << calcTree.result() << endl;
 	cout << "Тестовая версия - код возврата -1" << endl;
 	cin.get(); cin.get();
 	
 	// Возврат управления ОС
-	return -1;
+	return -1;  // Тестовая версия - код возврата -1
 }

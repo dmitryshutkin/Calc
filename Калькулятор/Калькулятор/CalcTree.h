@@ -14,7 +14,7 @@ private:
 	CalcOperation op;
 public:
 	int result();
-	CalcTree(std::string str) : a(nullptr), b(nullptr) { };
+	CalcTree(std::string str);
 };
 
 #endif
