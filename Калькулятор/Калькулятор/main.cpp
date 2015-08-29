@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <locale>
+#include "MainDefinitions.h"
 #include "CalcTree.h"
 
 
@@ -22,7 +23,11 @@ int main(void)
 
 	// Вывод результата
 	cout << endl << "Результат:" << calcTree.result() << endl;
+	
+	// Отладочная информация
 	cout << "Тестовая версия - код возврата -1" << endl;
+
+	// Пауза
 	cin.get(); cin.get();
 	
 	// Возврат управления ОС

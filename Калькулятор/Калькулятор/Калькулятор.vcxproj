@@ -119,12 +119,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CalcTree.cpp" />
-    <ClCompile Include="CalcOperation.cpp" />
+    <ClCompile Include="SyntaxCalcTree.cpp" />
+    <ClCompile Include="SyntaxCalcOperation.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CalcTree.h" />
-    <ClInclude Include="CalcOperation.h" />
+    <ClInclude Include="MainDefinitions.h" />
+    <ClInclude Include="SyntaxCalcTree.h" />
+    <ClInclude Include="SyntaxCalcOperation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

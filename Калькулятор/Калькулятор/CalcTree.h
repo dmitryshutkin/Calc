@@ -1,20 +1,23 @@
 #ifndef CALCTREE
 #define CALCTREE
-
 #pragma once
 
-#include "CalcOperation.h"
+#include "MainDefinitions.h"
+#include "SyntaxCalcTree.h"
 #include <string>
+#include <vector>
+
+using std::string;
+
 
 
 class CalcTree
 {
-private:
-	CalcTree	* a, * b;
-	CalcOperation op;
+	SyntaxCalcTree * syntaxCalcTree;  // синтаксический анализ дерева вычислений
 public:
+	CalcTree(string);
+	~CalcTree();
 	int result();
-	CalcTree(std::string str);
 };
 
 #endif

@@ -1,15 +1,9 @@
 #include "CalcTree.h"
-#include "CalcOperation.h"
-#include <vector>
-#include <string>
 #include <iostream>
 
 using namespace std;
 
-int CalcTree::result()
-{
-	return op(a, b);
-}
+
 
 CalcTree::CalcTree(string str)
 {
@@ -17,14 +11,14 @@ CalcTree::CalcTree(string str)
 	vector<string> tokens;
 	string token("");
 	int i = 0;
-	while ( i < str.size() )
+	while (i < str.size())
 	{
-		while ( (i < str.size()) && (isdigit((unsigned char)str[i])) )  // Проверить ленивость вычислений!
+		while ((i < str.size()) && (isdigit((unsigned char)str[i])))  // Проверить ленивость вычислений, чтобы избежать выход i за пределы допустимых значений!
 			token += str[i++];
-		if (token != "") 
+		if (token != "")
 		{
 			tokens.push_back(token);
-			token = "";	
+			token = "";
 		}
 		if (str[i] == '+')
 			tokens.push_back("+");
@@ -40,15 +34,27 @@ CalcTree::CalcTree(string str)
 			tokens.push_back(")");
 		++i;
 	}
-
-	// Тестовая печать
+	
+	// Отладочная информация
 	cout << "Список лексем:" << endl;
 	for (int i = 0; i < tokens.size(); ++i)
 		cout << tokens[i] << endl;
 
-	// Синтаксический анализ. Создание дерева в соответствии с приоритетом операций
-	// Разбиваем список лексем на пары, начиная с первого оператора, предполагаем корректный ввод
-	a = b = nullptr;  // Заглушка
-}
+	// Создаем дерево вычислений из массива лексических единиц
+	syntaxCalcTree = new SyntaxCalcTree(tokens);
+
+} // ! CalcTree::CalcTree(string)
 
 
+
+CalcTree::~CalcTree()
+{
+	delete syntaxCalcTree;
+} // ! CalcTree::~CalcTree()
+
+
+
+int CalcTree::result()
+{
+	return syntaxCalcTree->result();
+} // ! CalcTree::result()
