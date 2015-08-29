@@ -14,7 +14,7 @@ int main(void)
 	// Получить сторку для парсинга
 	string str = "";
 	cout << "Введите строку: ";
-	cin >> str;
+	getline(cin,str);
 	cout << "Вы ввели строку: " << str << endl;
 
 	// Парсинг и вычисление

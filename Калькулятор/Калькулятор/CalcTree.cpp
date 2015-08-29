@@ -20,10 +20,7 @@ CalcTree::CalcTree(string str)
 	while ( i < str.size() )
 	{
 		while ( (i < str.size()) && (isdigit(str[i])) )  // Проверить ленивость вычислений
-		{
-			token += str[i];
-			++i;
-		}
+			token += str[i++];
 		if (token != "")
 		{
 			tokens.push_back(token);
