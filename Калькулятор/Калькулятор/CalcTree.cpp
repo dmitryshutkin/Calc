@@ -5,7 +5,7 @@ using namespace std;
 
 
 
-CalcTree::CalcTree(string str)
+CalcTree::CalcTree(const string & str)
 {
 	// Лексический анализ. Разбивка строки на список лексем
 	vector<string> tokens;
@@ -28,10 +28,10 @@ CalcTree::CalcTree(string str)
 			tokens.push_back("*");
 		if (str[i] == '/')
 			tokens.push_back("/");
-		if (str[i] == '(')
+		/*if (str[i] == '(')
 			tokens.push_back("(");
 		if (str[i] == ')')
-			tokens.push_back(")");
+			tokens.push_back(")");*/
 		++i;
 	}
 	

@@ -15,7 +15,7 @@ class CalcTree
 {
 	SyntaxCalcTree * syntaxCalcTree;  // синтаксический анализ дерева вычислений
 public:
-	CalcTree(string);
+	CalcTree(const string &);
 	~CalcTree();
 	int result();
 };

@@ -1,8 +1,9 @@
+#include "MainDefinitions.h"
+#include "CalcTree.h"
 #include <iostream>
 #include <string>
 #include <locale>
-#include "MainDefinitions.h"
-#include "CalcTree.h"
+
 
 
 using namespace std;
