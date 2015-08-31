@@ -13,7 +13,8 @@ using std::string;
 
 class CalcTree
 {
-	SyntaxCalcTree * syntaxCalcTree;  // синтаксический анализ дерева вычислений
+	SyntaxCalcTree * syntaxCalcTree;	// синтаксический анализ дерева вычислений
+	CalcTree();							// запрещаем конструктор по умолчанию
 public:
 	CalcTree(const string &);
 	~CalcTree();

@@ -5,6 +5,12 @@ using namespace std;
 
 
 
+CalcTree::CalcTree()
+{
+} // ! CalcTree::CalcTree()
+
+
+
 CalcTree::CalcTree(const string & str)
 {
 	// Лексический анализ. Разбивка строки на список лексем
