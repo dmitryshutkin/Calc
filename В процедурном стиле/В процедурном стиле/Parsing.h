@@ -4,12 +4,11 @@
 #pragma once
 
 #define DELIMITER 1
-#define VARIABLE  2
-#define NUMBER    3
+#define NUMBER    2
 
 
-extern char *prog;   // содержит анализируемое выражение 
+// extern char *prog;   // содержит анализируемое выражение 
 
-void parse(double *);
+double parse(char *);
 
 #endif

@@ -3,52 +3,72 @@
 #include <cctype>
 #include <cstdio>
 #include <cstring>
+#include <iostream>
 
 
 using namespace std;
 
-char token[80];
-char tok_type;
+char * expr;				// Строка выражения, определяется в функции double parse(char *)
 
-void eval_exp2(double *);	// Сложение или вычитание двух слагаемых
-void eval_exp3(double *);	// Умножение или деление двух множителей
-void eval_exp4(double *);	// Возведение в степень
-void eval_exp5(double *);	// Умножение унарных операторов + и -
-void eval_exp6(double *);	// Вычисление выражения в скобках
-void atom(double *);		// Получение значения в скобках
-void get_token(void);		// Выражение лексемы во входной поток
-void serror(int);			// Отображение сообщения об ошибке
-int isdelim(char);			// Возвращение значения 1, если аргумент является разделителем
+char token[1000];			// Лексема, определяется функцией void get_token(void)
+char tok_type;				// Вид лексемы, определяется функцией void get_token(void)
+
+// Функции рекурсивной обработки выражения
+void expr_sum_mult_pow_sign_brackets_atom(double *);	// Сумма + произведение + степень + унарный оператор + выражение в скобках + число
+void expr_mult_pow_sign_brackets_atom(double *);		// Произведение + степень + унарный оператор + выражение в скобках + число
+void expr_pow_sign_brackets_atom(double *);				// Степень + унарный оператор + выражение в скобках + число
+void expr_sign_brackets_atom(double *);					// Унарный оператор + выражение в скобках + число
+void expr_brackets_atom(double *);						// Выражение в скобках + число
+void expr_atom(double *);								// Число - выход из рекурсивного спуска по цепочке вызовов
+
+// Определение следующей лексемы и вида лексемы
+void get_token(void);									
+
+// Возвращение значения 1, если аргумент является разделителем
+int isdelim(char);			
+
+// Отображение сообщения об ошибке
+void serror(int);										
 
 
 
 // Точка входа анализатора
-void parse(double * answer)
+double parse(char * p)
 {
+	expr = p;
+	double answer; 
+
 	get_token();
+	
 	if (!*token)
 	{
 		serror(2);
-		return;
+		return 0;
 	}
-	eval_exp2(answer);
 
-	if (*token) serror(0); // последней лексемой должен быть нуль
+	expr_sum_mult_pow_sign_brackets_atom(&answer);
+
+	if (*token)		// последней лексемой должен быть ноль
+		serror(0); 
+
+	return answer;
+
 }
 
 
 
-// Сложение или вычитание двух слагаемых
-void eval_exp2(double * answer)
+// Сумма + произведение + степень + унарный оператор + выражение в скобках + число
+void expr_sum_mult_pow_sign_brackets_atom(double * answer)
 {
 	register char  op;
 	double temp;
 
-	eval_exp3(answer);
+	expr_mult_pow_sign_brackets_atom(answer);
+
 	while ((op = *token) == '+' || op == '-')
 	{
 		get_token();
-		eval_exp3(&temp);
+		expr_mult_pow_sign_brackets_atom(&temp);
 		switch (op)
 		{
 			case '-':
@@ -63,17 +83,18 @@ void eval_exp2(double * answer)
 
 
 
-// Умножение или деление двух множителей
-void eval_exp3(double * answer)
+// Произведение + степень + унарный оператор + выражение в скобках + число
+void expr_mult_pow_sign_brackets_atom(double * answer)
 {
 	register char op;
 	double temp;
 
-	eval_exp4(answer);
+	expr_pow_sign_brackets_atom(answer);
+
 	while ((op = *token) == '*' || op == '/' || op == '%')
 	{
 		get_token();
-		eval_exp4(&temp);
+		expr_pow_sign_brackets_atom(&temp);
 		switch (op)
 		{
 			case '*':
@@ -96,18 +117,18 @@ void eval_exp3(double * answer)
 
 
 
-// Возведение в степень
-void eval_exp4(double * answer)
+// Степень + унарный оператор + выражение в скобках + число
+void expr_pow_sign_brackets_atom(double * answer)
 {
 	double temp, ex;
 	register int t;
 
-	eval_exp5(answer);
+	expr_sign_brackets_atom(answer);
 
 	if (*token == '^')
 	{
 		get_token();
-		eval_exp4(&temp);
+		expr_pow_sign_brackets_atom(&temp);
 		ex = *answer;
 		if (temp == 0.0)
 		{
@@ -120,8 +141,8 @@ void eval_exp4(double * answer)
 
 
 
-// Умножение унарных операторов + и -
-void eval_exp5(double * answer)
+// Унарный оператор + выражение в скобках + число
+void expr_sign_brackets_atom(double * answer)
 {
 	register char  op;
 
@@ -131,31 +152,33 @@ void eval_exp5(double * answer)
 		op = *token;
 		get_token();
 	}
-	eval_exp6(answer);
+
+	expr_atom(answer);
+
 	if (op == '-') *answer = -(*answer);
 }
 
 
 
-// Вычисление выражения в скобках
-void eval_exp6(double * answer)
+// Выражение в скобках + число
+void expr_brackets_atom(double * answer)
 {
 	if ((*token == '('))
 	{
 		get_token();
-		eval_exp2(answer);
-		if (*token != ')')
+		expr_sum_mult_pow_sign_brackets_atom(answer);	// вычисление выражения в токене
+		if (*token != ')')	// Отсутствует закрывающая скобка
 			serror(1);
 		get_token();
 	}
 	else
-		atom(answer);
+		expr_atom(answer);
 }
 
 
 
-// Получение значения в скобках
-void atom(double * answer)
+// Число - выход из рекурсивного спуска по цепочке вызовов
+void expr_atom(double * answer)
 {
 	if (tok_type == NUMBER)
 	{
@@ -168,48 +191,36 @@ void atom(double * answer)
 
 
 
-// Отображение сообщения об ошибке
-void serror(int error)
-{
-	static char *e[] = {
-		"Синтаксическая ошибка",
-		"Несбалансированные скобки",
-		"Нет выражения",
-		"Деление на ноль"
-	};
-	printf("%s\n", e[error]);
-}
-
-
-
 // Возврат очередной лексемы
 void get_token(void)
 {
-	register char *temp;
+	register char * temp;
 
-	tok_type = 0;
+	tok_type = 0;	// сброс
 	temp = token;
-	*temp = '\0';
+	*temp = '\0';	// сброс, инициализация временной переменной символом конца строки
 
-	if (!*prog) return; // конец выражения 
-	while (isspace(*prog)) ++prog; // пропустить пробелы, символы табуляции и пустой строки 
+	if (!*expr) return; // конец выражения 
+	while (isspace(*expr)) 
+		++expr; // пропустить пробелы, символы табуляции и пустой строки, откусываем от строки, смещая указатель
 
-	if (strchr("+-*/%^=()", *prog))
+	if (strchr("+-*/%^=()", *expr))	// знак-разделитель
 	{
-		tok_type = DELIMITER;
+		tok_type = DELIMITER;	
 		// перейтик следующему символу 
-		*temp++ = *prog++;
+		*temp++ = *expr++;
 	}
-	else if (isalpha(*prog))
+	else if (isdigit(*expr))	// число
 	{
-		while (!isdelim(*prog)) *temp++ = *prog++;
-		tok_type = VARIABLE;
-	}
-	else if (isdigit(*prog))
-	{
-		while (!isdelim(*prog)) *temp++ = *prog++;
+		while (!isdelim(*expr)) 
+			*temp++ = *expr++;
 		tok_type = NUMBER;
 	}
+
+
+	cout << "Token: " << token << endl;  // отладочная информация
+	cout << "Expr: " << expr << endl;    
+	cout << endl;
 
 	*temp = '\0';
 }
@@ -224,3 +235,18 @@ int isdelim(char c)
 		return 1;
 	return 0;
 }
+
+
+
+// Отображение сообщения об ошибке
+void serror(int error)
+{
+	static char * e[] = {
+		"Синтаксическая ошибка",
+		"Несбалансированные скобки",
+		"Нет выражения",
+		"Деление на ноль"
+	};
+	printf("%s\n", e[error]);
+}
+

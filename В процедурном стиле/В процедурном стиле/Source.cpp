@@ -8,8 +8,12 @@
 
 using namespace std;
 
-char *prog;
+
+
+char *str;
 // void parse(double *answer);
+
+
 
 int main(void)
 {
@@ -17,7 +21,7 @@ int main(void)
 	double answer;
 	char *p;
 
-	p = (char *)malloc(100);
+	p = (char *)malloc(1000);
 	if (!p)
 	{
 		printf("Ошибка при выделении памяти.\n");
@@ -27,11 +31,11 @@ int main(void)
 	/* Обработка выражений до ввода пустой строки. */
 	do
 	{
-		prog = p;
+		str = p;
 		printf(">> ");
-		gets_s(prog, 100);
-		if (!*prog) break;
-		parse(&answer);
+		gets_s(str, 1000);
+		if (!*str) break;
+		answer = parse(str);
 		printf(">> %.2f\n", answer);
 	} while (*p);
 
