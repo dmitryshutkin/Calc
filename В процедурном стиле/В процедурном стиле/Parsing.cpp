@@ -94,7 +94,9 @@ void expr_mult_pow_sign_brackets_atom(double * answer)
 	while ((op = *token) == '*' || op == '/' || op == '%')
 	{
 		get_token();
+
 		expr_pow_sign_brackets_atom(&temp);
+
 		switch (op)
 		{
 			case '*':
@@ -153,7 +155,7 @@ void expr_sign_brackets_atom(double * answer)
 		get_token();
 	}
 
-	expr_atom(answer);
+	expr_brackets_atom(answer);
 
 	if (op == '-') *answer = -(*answer);
 }
@@ -194,33 +196,27 @@ void expr_atom(double * answer)
 // ¬озврат очередной лексемы
 void get_token(void)
 {
-	register char * temp;
+	register char *temp;
 
-	tok_type = 0;	// сброс
+	tok_type = 0;
 	temp = token;
-	*temp = '\0';	// сброс, инициализаци€ временной переменной символом конца строки
+	*temp = '\0';
 
-	if (!*expr) return; // конец выражени€ 
-	while (isspace(*expr)) 
-		++expr; // пропустить пробелы, символы табул€ции и пустой строки, откусываем от строки, смеща€ указатель
+	if (!*expr) return;			// конец выражени€ 
+	while (isspace(*expr))		// пропустить пробелы, символы табул€ции и пустой строки 
+		++expr;		
 
-	if (strchr("+-*/%^=()", *expr))	// знак-разделитель
+	if (strchr("+-*/%^=()", *expr))
 	{
-		tok_type = DELIMITER;	
-		// перейтик следующему символу 
-		*temp++ = *expr++;
+		tok_type = DELIMITER;
+		*temp++ = *expr++;		// перейтик следующему символу 
 	}
-	else if (isdigit(*expr))	// число
+	else if (isdigit(*expr))
 	{
-		while (!isdelim(*expr)) 
+		while (!isdelim(*expr))
 			*temp++ = *expr++;
 		tok_type = NUMBER;
 	}
-
-
-	cout << "Token: " << token << endl;  // отладочна€ информаци€
-	cout << "Expr: " << expr << endl;    
-	cout << endl;
 
 	*temp = '\0';
 }
