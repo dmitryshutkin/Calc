@@ -1,16 +1,12 @@
-#include "Parsing.h"
-#include <cstdlib>
-#include <cctype>
-#include <cstdio>
-#include <cstring>
 #include <iostream>
 
+#include "Parsing.h"
 
 using namespace std;
 
-const char * expr;			// Указатель на строку выражения, определяется в функции double parse(char *)
+const char * expr;			// Указатель на строку выражения, определяется в функции double parse(char *), обрезается после void get_token(void)
 
-char token[1000];			// Лексема, определяется функцией void get_token(void)
+char token[255];			// Лексема, определяется функцией void get_token(void)
 char tok_type;				// Вид лексемы, определяется функцией void get_token(void)
 
 // Функции рекурсивной обработки выражения
@@ -95,26 +91,26 @@ void expr_mult_pow_sign_brackets_atom(double * answer)
 
 	while ((op = *token) == '*' || op == '/' || op == '%')
 	{
-		
 		get_token();
 		expr_pow_sign_brackets_atom(&temp);
 
 		switch (op)
 		{
-			case '*':
+		case '*':
 			*answer = *answer * temp;
-			break;
-			case '/':
+		break;
+		case '/':
 			if (temp == 0.0)
 			{
 				serror(3); // деление на нуль
 				*answer = 0.0;
 			}
-			else *answer = *answer / temp;
-			break;
-			case '%':
+			else 
+				*answer = *answer / temp;
+		break;
+		case '%':
 			*answer = (int)*answer % (int)temp;
-			break;
+		break;
 		}
 	}
 }
@@ -172,7 +168,7 @@ void expr_brackets_atom(double * answer)
 	if ((*token == '('))
 	{
 		get_token();
-		expr_sum_mult_pow_sign_brackets_atom(answer);	// вычисление выражения в токене
+		expr_sum_mult_pow_sign_brackets_atom(answer);	// вычисление выражения в выражении
 		
 		if (*token != ')')	// Отсутствует закрывающая скобка
 			serror(1);
