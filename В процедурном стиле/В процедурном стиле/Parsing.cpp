@@ -8,7 +8,7 @@
 
 using namespace std;
 
-char * expr;				// Строка выражения, определяется в функции double parse(char *)
+const char * expr;			// Строка выражения, определяется в функции double parse(char *)
 
 char token[1000];			// Лексема, определяется функцией void get_token(void)
 char tok_type;				// Вид лексемы, определяется функцией void get_token(void)
@@ -33,9 +33,10 @@ void serror(int);
 
 
 // Точка входа анализатора
-double parse(char * p)
+double parse(const char * const p)
 {
 	expr = p;
+
 	double answer; 
 
 	get_token();
@@ -69,6 +70,7 @@ void expr_sum_mult_pow_sign_brackets_atom(double * answer)
 	{
 		get_token();
 		expr_mult_pow_sign_brackets_atom(&temp);
+		
 		switch (op)
 		{
 			case '-':
@@ -93,8 +95,8 @@ void expr_mult_pow_sign_brackets_atom(double * answer)
 
 	while ((op = *token) == '*' || op == '/' || op == '%')
 	{
+		
 		get_token();
-
 		expr_pow_sign_brackets_atom(&temp);
 
 		switch (op)
@@ -131,13 +133,15 @@ void expr_pow_sign_brackets_atom(double * answer)
 	{
 		get_token();
 		expr_pow_sign_brackets_atom(&temp);
+
 		ex = *answer;
 		if (temp == 0.0)
 		{
 			*answer = 1.0;
 			return;
 		}
-		for (t = temp - 1; t>0; --t) *answer = (*answer) * (double)ex;
+		for (t = temp - 1; t>0; --t) 
+			*answer = (*answer) * (double)ex;
 	}
 }
 
@@ -169,6 +173,7 @@ void expr_brackets_atom(double * answer)
 	{
 		get_token();
 		expr_sum_mult_pow_sign_brackets_atom(answer);	// вычисление выражения в токене
+		
 		if (*token != ')')	// Отсутствует закрывающая скобка
 			serror(1);
 		get_token();
@@ -186,6 +191,7 @@ void expr_atom(double * answer)
 	{
 		*answer = atof(token);
 		get_token();
+		
 		return;
 	}
 	serror(0);  // иначе синтаксическая ошибка в выражении
@@ -196,29 +202,31 @@ void expr_atom(double * answer)
 // Возврат очередной лексемы
 void get_token(void)
 {
-	register char *temp;
+	register char * temp;
 
-	tok_type = 0;
+	tok_type = 0;				// обнуляем тип лексемы
 	temp = token;
-	*temp = '\0';
+	*temp = '\0';				// обнуляем значение лексемы через указатель
 
-	if (!*expr) return;			// конец выражения 
+	if (!*expr)					// конец выражения 
+		return;	
+
 	while (isspace(*expr))		// пропустить пробелы, символы табуляции и пустой строки 
 		++expr;		
 
 	if (strchr("+-*/%^=()", *expr))
 	{
-		tok_type = DELIMITER;
-		*temp++ = *expr++;		// перейтик следующему символу 
+		tok_type = DELIMITER;	// устанавливаем тип лексемы
+		*temp++ = *expr++;		// заполняем лексему символами из *expr (один символ), смещаем указатели
 	}
 	else if (isdigit(*expr))
 	{
-		while (!isdelim(*expr))
-			*temp++ = *expr++;
-		tok_type = NUMBER;
+		tok_type = NUMBER;		// устанавливаем тип лексемы
+		while (!isdelim(*expr))	
+			*temp++ = *expr++;	// заполняем лексему символами из *expr, смещаем указатели
 	}
 
-	*temp = '\0';
+	*temp = '\0';				// добавляем символ конца строки
 }
 
 

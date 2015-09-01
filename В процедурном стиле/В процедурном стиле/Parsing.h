@@ -9,6 +9,6 @@
 
 // extern char *prog;   // содержит анализируемое выражение 
 
-double parse(char *);
+double parse(const char * const);
 
 #endif
