@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const char * expr;			// Строка выражения, определяется в функции double parse(char *)
+const char * expr;			// Указатель на строку выражения, определяется в функции double parse(char *)
 
 char token[1000];			// Лексема, определяется функцией void get_token(void)
 char tok_type;				// Вид лексемы, определяется функцией void get_token(void)
@@ -253,4 +253,3 @@ void serror(int error)
 	};
 	printf("%s\n", e[error]);
 }
-

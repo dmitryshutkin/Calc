@@ -7,8 +7,7 @@
 #define NUMBER    2
 
 
-// extern char *prog;   // содержит анализируемое выражение 
-
 double parse(const char * const);
+
 
 #endif
