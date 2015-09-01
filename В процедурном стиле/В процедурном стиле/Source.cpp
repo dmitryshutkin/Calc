@@ -51,6 +51,6 @@ int main(void)
 	} // for
 
 	delete[] str;
-	
+	// тесто
 	return 0;
 }
