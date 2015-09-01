@@ -120,8 +120,7 @@ void expr_mult_pow_sign_brackets_atom(double * answer)
 // Степень + унарный оператор + выражение в скобках + число
 void expr_pow_sign_brackets_atom(double * answer)
 {
-	double temp, ex;
-	register int t;
+	double temp;
 
 	expr_sign_brackets_atom(answer);
 
@@ -129,15 +128,7 @@ void expr_pow_sign_brackets_atom(double * answer)
 	{
 		get_token();
 		expr_pow_sign_brackets_atom(&temp);
-
-		ex = *answer;
-		if (temp == 0.0)
-		{
-			*answer = 1.0;
-			return;
-		}
-		for (t = temp - 1; t>0; --t) 
-			*answer = (*answer) * (double)ex;
+		*answer = pow(*answer, temp);
 	}
 }
 
