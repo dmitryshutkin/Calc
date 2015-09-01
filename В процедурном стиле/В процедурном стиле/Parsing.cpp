@@ -69,10 +69,10 @@ void expr_sum_mult_pow_sign_brackets_atom(double * answer)
 		
 		switch (op)
 		{
-			case '-':
+		case '-':
 			*answer = *answer - temp;
 			break;
-			case '+':
+		case '+':
 			*answer = *answer + temp;
 			break;
 		}
@@ -98,7 +98,7 @@ void expr_mult_pow_sign_brackets_atom(double * answer)
 		{
 		case '*':
 			*answer = *answer * temp;
-		break;
+			break;
 		case '/':
 			if (temp == 0.0)
 			{
@@ -107,10 +107,10 @@ void expr_mult_pow_sign_brackets_atom(double * answer)
 			}
 			else 
 				*answer = *answer / temp;
-		break;
+			break;
 		case '%':
 			*answer = (int)*answer % (int)temp;
-		break;
+			break;
 		}
 	}
 }
