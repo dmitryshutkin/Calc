@@ -11,13 +11,13 @@ char tok_type;				// Вид лексемы, определяется функцией void get_token(void)
 
 // Функции рекурсивной обработки выражения
 // Цепочка вызовов:
-// Сумма -> произведение -> степень -> унарный оператор -> /ФУНКЦИЯ/ -> выражение в скобках -> число
+// Сумма -> произведение -> степень -> унарный оператор -> функция -> выражение в скобках -> число
 
-void expr_sum_mult_pow_sign_func_brackets_atom(double *);	// Сумма + произведение + степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
-void expr_mult_pow_sign_func_brackets_atom(double *);		// Произведение + степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
-void expr_pow_sign_func_brackets_atom(double *);			// Степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
-void expr_sign_func_brackets_atom(double *);				// Унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
-void expr_func_brackets_atom(double *);						// /ФУНКЦИЯ/ + выражение в скобках + число
+void expr_sum_mult_pow_sign_func_brackets_atom(double *);	// Сумма + произведение + степень + унарный оператор + функция + выражение в скобках + число
+void expr_mult_pow_sign_func_brackets_atom(double *);		// Произведение + степень + унарный оператор + функция + выражение в скобках + число
+void expr_pow_sign_func_brackets_atom(double *);			// Степень + унарный оператор + функция + выражение в скобках + число
+void expr_sign_func_brackets_atom(double *);				// Унарный оператор + функция + выражение в скобках + число
+void expr_func_brackets_atom(double *);						// Функция + выражение в скобках + число
 void expr_brackets_atom(double *);							// Выражение в скобках + число
 void expr_atom(double *);									// Число - выход из рекурсивного спуска по цепочке вызовов
 
@@ -59,7 +59,7 @@ double parse(const char * const p)
 
 
 
-// Сумма + произведение + степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
+// Сумма + произведение + степень + унарный оператор + функция + выражение в скобках + число
 void expr_sum_mult_pow_sign_func_brackets_atom(double * answer)
 {
 	register char  op;
@@ -86,7 +86,7 @@ void expr_sum_mult_pow_sign_func_brackets_atom(double * answer)
 
 
 
-// Произведение + степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
+// Произведение + степень + унарный оператор + функция + выражение в скобках + число
 void expr_mult_pow_sign_func_brackets_atom(double * answer)
 {
 	register char op;
@@ -122,7 +122,7 @@ void expr_mult_pow_sign_func_brackets_atom(double * answer)
 
 
 
-// Степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
+// Степень + унарный оператор + функция + выражение в скобках + число
 void expr_pow_sign_func_brackets_atom(double * answer)
 {
 	double temp;
@@ -139,7 +139,7 @@ void expr_pow_sign_func_brackets_atom(double * answer)
 
 
 
-// Унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
+// Унарный оператор + функция + выражение в скобках + число
 void expr_sign_func_brackets_atom(double * answer)
 {
 	register char  op;
@@ -159,30 +159,16 @@ void expr_sign_func_brackets_atom(double * answer)
 
 
 
-// /ФУНКЦИЯ/ + выражение в скобках + число
+// Функция + выражение в скобках + число
 void expr_func_brackets_atom(double * answer)
 {
 	if (tok_type == FUNCTION)
 	{
-		cout << "До вызова get_tken" << endl;
-		cout << "token       " << token << endl;
-		cout << "expr:       " << expr << endl;
-
 		get_token();
-		
-		// вызываем оставшуюся цепочку
-		// expr_sum_mult_pow_sign_func_brackets_atom(answer);
-		
+
 		expr_brackets_atom(answer);
 
-
-		cout << "После вызова get_tken" << endl;
-		cout << "token       " << token << endl;
-		cout << "expr:       " << expr << endl;
-		cout << "answer:     " << *answer << endl;
-		cout << "sin answer: " << sin(*answer) << endl;
-
-		*answer = sin(*answer);
+		*answer = sin(*answer);   // заглушка - sin
 	}
 	else
 		expr_brackets_atom(answer);
