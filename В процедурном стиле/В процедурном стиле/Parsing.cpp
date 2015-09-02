@@ -13,13 +13,13 @@ char tok_type;				// ¬ид лексемы, определ€етс€ функцией void get_token(void)
 // ÷епочка вызовов:
 // —умма -> произведение -> степень -> унарный оператор -> /‘”Ќ ÷»я/ -> выражение в скобках -> число
 
-void expr_sum_mult_pow_sign_function_brackets_atom(double *);	// —умма + произведение + степень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
-void expr_mult_pow_sign_function_brackets_atom(double *);		// ѕроизведение + степень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
-void expr_pow_sign_function_brackets_atom(double *);			// —тепень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
-void expr_sign_function_brackets_atom(double *);				// ”нарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
-void expr_function_brackets_atom(double *);						// /‘”Ќ ÷»я/ + выражение в скобках + число
-void expr_brackets_atom(double *);								// ¬ыражение в скобках + число
-void expr_atom(double *);										// „исло - выход из рекурсивного спуска по цепочке вызовов
+void expr_sum_mult_pow_sign_func_brackets_atom(double *);	// —умма + произведение + степень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_mult_pow_sign_func_brackets_atom(double *);		// ѕроизведение + степень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_pow_sign_func_brackets_atom(double *);			// —тепень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_sign_func_brackets_atom(double *);				// ”нарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_func_brackets_atom(double *);						// /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_brackets_atom(double *);							// ¬ыражение в скобках + число
+void expr_atom(double *);									// „исло - выход из рекурсивного спуска по цепочке вызовов
 
 // ќпределение следующей лексемы и вида лексемы
 void get_token(void);									
@@ -48,7 +48,7 @@ double parse(const char * const p)
 		return 0;
 	}
 
-	expr_sum_mult_pow_sign_function_brackets_atom(&answer);
+	expr_sum_mult_pow_sign_func_brackets_atom(&answer);
 
 	if (*token)		// последней лексемой должен быть ноль
 		serror(0); 
@@ -59,18 +59,18 @@ double parse(const char * const p)
 
 
 
-// —умма + произведение + степень + унарный оператор + выражение в скобках + число
-void expr_sum_mult_pow_sign_function_brackets_atom(double * answer)
+// —умма + произведение + степень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_sum_mult_pow_sign_func_brackets_atom(double * answer)
 {
 	register char  op;
 	double temp;
 
-	expr_mult_pow_sign_function_brackets_atom(answer);
+	expr_mult_pow_sign_func_brackets_atom(answer);
 
 	while ((op = *token) == '+' || op == '-')
 	{
 		get_token();
-		expr_mult_pow_sign_function_brackets_atom(&temp);
+		expr_mult_pow_sign_func_brackets_atom(&temp);
 		
 		switch (op)
 		{
@@ -86,18 +86,18 @@ void expr_sum_mult_pow_sign_function_brackets_atom(double * answer)
 
 
 
-// ѕроизведение + степень + унарный оператор + выражение в скобках + число
-void expr_mult_pow_sign_function_brackets_atom(double * answer)
+// ѕроизведение + степень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_mult_pow_sign_func_brackets_atom(double * answer)
 {
 	register char op;
 	double temp;
 
-	expr_pow_sign_function_brackets_atom(answer);
+	expr_pow_sign_func_brackets_atom(answer);
 
 	while ((op = *token) == '*' || op == '/' || op == '%')
 	{
 		get_token();
-		expr_pow_sign_function_brackets_atom(&temp);
+		expr_pow_sign_func_brackets_atom(&temp);
 
 		switch (op)
 		{
@@ -122,25 +122,25 @@ void expr_mult_pow_sign_function_brackets_atom(double * answer)
 
 
 
-// —тепень + унарный оператор + выражение в скобках + число
-void expr_pow_sign_function_brackets_atom(double * answer)
+// —тепень + унарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_pow_sign_func_brackets_atom(double * answer)
 {
 	double temp;
 
-	expr_sign_function_brackets_atom(answer);
+	expr_sign_func_brackets_atom(answer);
 
 	if (*token == '^')
 	{
 		get_token();
-		expr_pow_sign_function_brackets_atom(&temp);
+		expr_pow_sign_func_brackets_atom(&temp);
 		*answer = pow(*answer, temp);
 	}
 }
 
 
 
-// ”нарный оператор + выражение в скобках + число
-void expr_sign_function_brackets_atom(double * answer)
+// ”нарный оператор + /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_sign_func_brackets_atom(double * answer)
 {
 	register char  op;
 
@@ -151,7 +151,7 @@ void expr_sign_function_brackets_atom(double * answer)
 		get_token();
 	}
 
-	expr_function_brackets_atom(answer);
+	expr_func_brackets_atom(answer);
 
 	if (op == '-') 
 		*answer = -(*answer);
@@ -159,13 +159,43 @@ void expr_sign_function_brackets_atom(double * answer)
 
 
 
+// /‘”Ќ ÷»я/ + выражение в скобках + число
+void expr_func_brackets_atom(double * answer)
+{
+	if (tok_type == FUNCTION)
+	{
+		cout << "ƒо вызова get_tken" << endl;
+		cout << "token       " << token << endl;
+		cout << "expr:       " << expr << endl;
+
+		get_token();
+		
+		// вызываем оставшуюс€ цепочку
+		// expr_sum_mult_pow_sign_func_brackets_atom(answer);
+		
+		expr_brackets_atom(answer);
+
+
+		cout << "ѕосле вызова get_tken" << endl;
+		cout << "token       " << token << endl;
+		cout << "expr:       " << expr << endl;
+		cout << "answer:     " << *answer << endl;
+		cout << "sin answer: " << sin(*answer) << endl;
+
+		*answer = sin(*answer);
+	}
+	else
+		expr_brackets_atom(answer);
+}
+
+
 // ¬ыражение в скобках + число
-void expr_function_brackets_atom(double * answer)
+void expr_brackets_atom(double * answer)
 {
 	if ((*token == '('))
 	{
 		get_token();
-		expr_sum_mult_pow_sign_function_brackets_atom(answer);	// вычисление выражени€ в выражении
+		expr_sum_mult_pow_sign_func_brackets_atom(answer);	// вычисление выражени€ в выражении
 		
 		if (*token != ')')	// ќтсутствует закрывающа€ скобка
 			serror(1);
@@ -211,6 +241,13 @@ void get_token(void)
 	{
 		tok_type = DELIMITER;	// устанавливаем тип лексемы
 		*temp++ = *expr++;		// заполн€ем лексему символами из *expr (один символ), смещаем указатели
+	}
+	else if (strchr("sin", *expr))
+	{
+		tok_type = FUNCTION;
+		while (*expr != '(')	//
+			*temp++ = *expr++;	// заполн€ем лексему символами из *expr, смещаем указатели
+
 	}
 	else if (isdigit(*expr))
 	{
