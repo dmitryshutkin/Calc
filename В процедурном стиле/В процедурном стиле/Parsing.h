@@ -1,4 +1,4 @@
-#ifndef PARSING
+﻿#ifndef PARSING
 #define PARSING
 
 #pragma once

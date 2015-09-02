@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <string>
 #include <locale>
 
@@ -12,7 +12,6 @@ const char bell = '\a';
 
 int main(void)
 {
-	// setlocale(LC_CTYPE, "");
 	setlocale(LC_ALL, "Russian");
 	string str;
 
@@ -23,7 +22,7 @@ int main(void)
 			break;
 		else if (str == "?")
 		{
-			cout << bell << " =>     Команды интерпретатора:\n =>       \"cls\" - очистка консоли\n =>       Enter - завершение работы" << endl << endl;
+			cout << bell << " =>     РљРѕРјР°РЅРґС‹ РёРЅС‚РµСЂРїСЂРµС‚Р°С‚РѕСЂР°:\n =>       \"cls\" - РѕС‡РёСЃС‚РєР° РєРѕРЅСЃРѕР»Рё\n =>       Enter - Р·Р°РІРµСЂС€РµРЅРёРµ СЂР°Р±РѕС‚С‹" << '\n' << endl;
 			continue;
 		}
 		else if (str == "cls")
@@ -33,7 +32,7 @@ int main(void)
 			cout << bell;
 			continue;
 		}
-		cout << bell << " =>  " << parse(str.c_str()) << endl << endl;		
+		cout << bell << " =>  " << parse(str.c_str()) << '\n' << endl;		
 	} 
 	cout << bell;
 	return 0;
