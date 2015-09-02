@@ -23,7 +23,7 @@ void expr_sum_mult_pow_sign_func_brackets_atom(double *);	// Сумма + про
 void expr_mult_pow_sign_func_brackets_atom(double *);		// Произведение + степень + унарный оператор + функция + выражение в скобках + число
 void expr_pow_sign_func_brackets_atom(double *);			// Степень + унарный оператор + функция + выражение в скобках + число
 void expr_sign_func_brackets_atom(double *);				// Унарный оператор + функция + выражение в скобках + число
-void expr_func_brackets_atom(double *);						// Функция + выражение в скобках + число
+void expr_func_brackets_atom(double *);				    	// Функция + выражение в скобках + число
 void expr_brackets_atom(double *);							// Выражение в скобках + число
 void expr_atom(double *);									// Число --- выход из рекурсивного спуска
 
