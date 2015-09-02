@@ -2,6 +2,12 @@
 
 #include "Parsing.h"
 
+#define DELIMITER 1
+#define NUMBER    2
+#define FUNCTION  3
+
+
+
 using namespace std;
 
 const char * expr;			// Указатель на строку выражения, определяется в функции double parse(char *), обрезается после void get_token(void)
@@ -21,7 +27,7 @@ void expr_func_brackets_atom(double *);						// Функция + выражение в скобках + 
 void expr_brackets_atom(double *);							// Выражение в скобках + число
 void expr_atom(double *);									// Число - выход из рекурсивного спуска по цепочке вызовов
 
-// Определение следующей лексемы и вида лексемы
+// Определение следующей лексемы в выражении и вида лексемы
 void get_token(void);									
 
 // Возвращение значения 1, если аргумент является разделителем
@@ -44,7 +50,7 @@ double parse(const char * const p)
 	
 	if (!*token)
 	{
-		serror(2);
+		serror(2);  
 		return nanf("");
 	}
 
@@ -78,10 +84,10 @@ void expr_sum_mult_pow_sign_func_brackets_atom(double * answer)
 		switch (op)
 		{
 		case '-':
-			*answer = *answer - temp;
+			*answer -= temp;
 			break;
 		case '+':
-			*answer = *answer + temp;
+			*answer += temp;
 			break;
 		}
 	}
@@ -105,7 +111,7 @@ void expr_mult_pow_sign_func_brackets_atom(double * answer)
 		switch (op)
 		{
 		case '*':
-			*answer = *answer * temp;
+			*answer *= temp;
 			break;
 		case '/':
 			if (temp == 0.0)
@@ -114,7 +120,7 @@ void expr_mult_pow_sign_func_brackets_atom(double * answer)
 				*answer = nanf("");
 			}
 			else 
-				*answer = *answer / temp;
+				*answer /= temp;
 			break;
 		case '%':
 			*answer = (int)*answer % (int)temp;
@@ -127,13 +133,12 @@ void expr_mult_pow_sign_func_brackets_atom(double * answer)
 
 // Степень + унарный оператор + функция + выражение в скобках + число
 void expr_pow_sign_func_brackets_atom(double * answer)
-{
-	double temp;
-
+{	
 	expr_sign_func_brackets_atom(answer);
 
 	if (*token == '^')
 	{
+		double temp;
 		get_token();
 		expr_pow_sign_func_brackets_atom(&temp);
 		*answer = pow(*answer, temp);
@@ -184,8 +189,7 @@ void expr_brackets_atom(double * answer)
 	if ((*token == '('))
 	{
 		get_token();
-		expr_sum_mult_pow_sign_func_brackets_atom(answer);	// вычисление выражения в выражении
-		
+		expr_sum_mult_pow_sign_func_brackets_atom(answer);	// вычисление подвыражения в выражении в скобках, в результате побочного действия должен остаться token == ')'
 		if (*token != ')')	// Отсутствует закрывающая скобка
 		{
 			serror(1);
@@ -235,10 +239,10 @@ void get_token(void)
 		tok_type = DELIMITER;	// устанавливаем тип лексемы
 		*temp++ = *expr++;		// заполняем лексему символами из *expr (один символ), смещаем указатели
 	}
-	else if (strstr(expr, "sin"))
+	else if (expr  == strstr(expr, "sin"))
 	{
 		tok_type = FUNCTION;
-		while (*expr != '(')	//
+		while ((*expr != '(') && !isdigit((unsigned char)*expr))	//
 			*temp++ = *expr++;	// заполняем лексему символами из *expr, смещаем указатели
 
 	}

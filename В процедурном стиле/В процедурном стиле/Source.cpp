@@ -6,6 +6,8 @@
 
 using namespace std;
 
+const char bell = '\a';
+
 
 
 int main(void)
@@ -14,25 +16,25 @@ int main(void)
 	setlocale(LC_ALL, "Russian");
 	string str;
 
-	cout << "\a";
+	cout << bell;
 	while((cout << " >>  ") && getline(cin, str))
 	{	
 		if (str.empty())
 			break;
 		else if (str == "?")
 		{
-			cout << "\a" << " =>     Команды интерпретатора:\n =>       \"cls\" - очистка консоли\n =>       Enter - завершение работы" << endl << endl;
+			cout << bell << " =>     Команды интерпретатора:\n =>       \"cls\" - очистка консоли\n =>       Enter - завершение работы" << endl << endl;
 			continue;
 		}
 		else if (str == "cls")
 		{
 			if (system("cls"))
 				system("clear");
-			cout << "\a";
+			cout << bell;
 			continue;
 		}
-		cout << "\a" << " =>  " << parse(str.c_str()) << endl << endl;		
+		cout << bell << " =>  " << parse(str.c_str()) << endl << endl;		
 	} 
-	cout << "\a";
+	cout << bell;
 	return 0;
 }
