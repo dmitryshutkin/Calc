@@ -45,13 +45,16 @@ double parse(const char * const p)
 	if (!*token)
 	{
 		serror(2);
-		return 0;
+		return nanf("");
 	}
 
 	expr_sum_mult_pow_sign_func_brackets_atom(&answer);
 
 	if (*token)		// последней лексемой должен быть ноль
-		serror(0); 
+	{
+		serror(0);
+		answer = nanf("");
+	}
 
 	return answer;
 
@@ -108,7 +111,7 @@ void expr_mult_pow_sign_func_brackets_atom(double * answer)
 			if (temp == 0.0)
 			{
 				serror(3); // деление на нуль
-				*answer = 0.0;
+				*answer = nanf("");
 			}
 			else 
 				*answer = *answer / temp;
@@ -184,7 +187,10 @@ void expr_brackets_atom(double * answer)
 		expr_sum_mult_pow_sign_func_brackets_atom(answer);	// вычисление выражения в выражении
 		
 		if (*token != ')')	// Отсутствует закрывающая скобка
+		{
 			serror(1);
+			*answer = nanf("");
+		}
 		get_token();
 	}
 	else
@@ -204,6 +210,7 @@ void expr_atom(double * answer)
 		return;
 	}
 	serror(0);  // иначе синтаксическая ошибка в выражении
+	*answer = nanf("");
 }
 
 
@@ -220,7 +227,7 @@ void get_token(void)
 	if (!*expr)					// конец выражения 
 		return;	
 
-	while (isspace(*expr))		// пропустить пробелы, символы табуляции и пустой строки 
+	while (isspace((unsigned char)*expr))		// пропустить пробелы, символы табуляции и пустой строки 
 		++expr;		
 
 	if (strchr("+-*/%^=()", *expr))
@@ -228,14 +235,14 @@ void get_token(void)
 		tok_type = DELIMITER;	// устанавливаем тип лексемы
 		*temp++ = *expr++;		// заполняем лексему символами из *expr (один символ), смещаем указатели
 	}
-	else if (strchr("sin", *expr))
+	else if (strstr(expr, "sin"))
 	{
 		tok_type = FUNCTION;
 		while (*expr != '(')	//
 			*temp++ = *expr++;	// заполняем лексему символами из *expr, смещаем указатели
 
 	}
-	else if (isdigit(*expr))
+	else if (isdigit((unsigned char)*expr))
 	{
 		tok_type = NUMBER;		// устанавливаем тип лексемы
 		while (!isdelim(*expr))	
@@ -262,10 +269,10 @@ int isdelim(char c)
 void serror(int error)
 {
 	static char * e[] = {
-		"Синтаксическая ошибка",
-		"Несбалансированные скобки",
-		"Нет выражения",
-		"Деление на ноль"
+		" =>  Синтаксическая ошибка",
+		" =>  Несбалансированные скобки",
+		" =>  Нет выражения",
+		" =>  Деление на ноль"
 	};
-	printf("%s\n", e[error]);
+	cout << e[error] << endl;
 }
