@@ -10,12 +10,16 @@ char token[255];			// Лексема, определяется функцией void get_token(void)
 char tok_type;				// Вид лексемы, определяется функцией void get_token(void)
 
 // Функции рекурсивной обработки выражения
-void expr_sum_mult_pow_sign_brackets_atom(double *);	// Сумма + произведение + степень + унарный оператор + выражение в скобках + число
-void expr_mult_pow_sign_brackets_atom(double *);		// Произведение + степень + унарный оператор + выражение в скобках + число
-void expr_pow_sign_brackets_atom(double *);				// Степень + унарный оператор + выражение в скобках + число
-void expr_sign_brackets_atom(double *);					// Унарный оператор + выражение в скобках + число
-void expr_brackets_atom(double *);						// Выражение в скобках + число
-void expr_atom(double *);								// Число - выход из рекурсивного спуска по цепочке вызовов
+// Цепочка вызовов:
+// Сумма -> произведение -> степень -> унарный оператор -> /ФУНКЦИЯ/ -> выражение в скобках -> число
+
+void expr_sum_mult_pow_sign_function_brackets_atom(double *);	// Сумма + произведение + степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
+void expr_mult_pow_sign_function_brackets_atom(double *);		// Произведение + степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
+void expr_pow_sign_function_brackets_atom(double *);			// Степень + унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
+void expr_sign_function_brackets_atom(double *);				// Унарный оператор + /ФУНКЦИЯ/ + выражение в скобках + число
+void expr_function_brackets_atom(double *);						// /ФУНКЦИЯ/ + выражение в скобках + число
+void expr_brackets_atom(double *);								// Выражение в скобках + число
+void expr_atom(double *);										// Число - выход из рекурсивного спуска по цепочке вызовов
 
 // Определение следующей лексемы и вида лексемы
 void get_token(void);									
@@ -25,6 +29,7 @@ int isdelim(char);
 
 // Отображение сообщения об ошибке
 void serror(int);										
+
 
 
 
@@ -43,7 +48,7 @@ double parse(const char * const p)
 		return 0;
 	}
 
-	expr_sum_mult_pow_sign_brackets_atom(&answer);
+	expr_sum_mult_pow_sign_function_brackets_atom(&answer);
 
 	if (*token)		// последней лексемой должен быть ноль
 		serror(0); 
@@ -55,17 +60,17 @@ double parse(const char * const p)
 
 
 // Сумма + произведение + степень + унарный оператор + выражение в скобках + число
-void expr_sum_mult_pow_sign_brackets_atom(double * answer)
+void expr_sum_mult_pow_sign_function_brackets_atom(double * answer)
 {
 	register char  op;
 	double temp;
 
-	expr_mult_pow_sign_brackets_atom(answer);
+	expr_mult_pow_sign_function_brackets_atom(answer);
 
 	while ((op = *token) == '+' || op == '-')
 	{
 		get_token();
-		expr_mult_pow_sign_brackets_atom(&temp);
+		expr_mult_pow_sign_function_brackets_atom(&temp);
 		
 		switch (op)
 		{
@@ -82,17 +87,17 @@ void expr_sum_mult_pow_sign_brackets_atom(double * answer)
 
 
 // Произведение + степень + унарный оператор + выражение в скобках + число
-void expr_mult_pow_sign_brackets_atom(double * answer)
+void expr_mult_pow_sign_function_brackets_atom(double * answer)
 {
 	register char op;
 	double temp;
 
-	expr_pow_sign_brackets_atom(answer);
+	expr_pow_sign_function_brackets_atom(answer);
 
 	while ((op = *token) == '*' || op == '/' || op == '%')
 	{
 		get_token();
-		expr_pow_sign_brackets_atom(&temp);
+		expr_pow_sign_function_brackets_atom(&temp);
 
 		switch (op)
 		{
@@ -118,16 +123,16 @@ void expr_mult_pow_sign_brackets_atom(double * answer)
 
 
 // Степень + унарный оператор + выражение в скобках + число
-void expr_pow_sign_brackets_atom(double * answer)
+void expr_pow_sign_function_brackets_atom(double * answer)
 {
 	double temp;
 
-	expr_sign_brackets_atom(answer);
+	expr_sign_function_brackets_atom(answer);
 
 	if (*token == '^')
 	{
 		get_token();
-		expr_pow_sign_brackets_atom(&temp);
+		expr_pow_sign_function_brackets_atom(&temp);
 		*answer = pow(*answer, temp);
 	}
 }
@@ -135,7 +140,7 @@ void expr_pow_sign_brackets_atom(double * answer)
 
 
 // Унарный оператор + выражение в скобках + число
-void expr_sign_brackets_atom(double * answer)
+void expr_sign_function_brackets_atom(double * answer)
 {
 	register char  op;
 
@@ -146,20 +151,21 @@ void expr_sign_brackets_atom(double * answer)
 		get_token();
 	}
 
-	expr_brackets_atom(answer);
+	expr_function_brackets_atom(answer);
 
-	if (op == '-') *answer = -(*answer);
+	if (op == '-') 
+		*answer = -(*answer);
 }
 
 
 
 // Выражение в скобках + число
-void expr_brackets_atom(double * answer)
+void expr_function_brackets_atom(double * answer)
 {
 	if ((*token == '('))
 	{
 		get_token();
-		expr_sum_mult_pow_sign_brackets_atom(answer);	// вычисление выражения в выражении
+		expr_sum_mult_pow_sign_function_brackets_atom(answer);	// вычисление выражения в выражении
 		
 		if (*token != ')')	// Отсутствует закрывающая скобка
 			serror(1);
