@@ -32,7 +32,7 @@ int main(void)
 			cout << bell;
 			continue;
 		}
-		cout << bell << " =>  " << parse(str.c_str()) << '\n' << endl;		
+		cout << bell << " =>  " << parse(str) << '\n' << endl;		
 	} 
 	cout << bell;
 	return 0;

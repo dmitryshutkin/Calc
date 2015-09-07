@@ -1,11 +1,15 @@
 ﻿#include <iostream>
+#include <map>
 
 #include "Parsing.h"
 
 
 using namespace std;
 
-class Token					// Класс лексем
+
+
+// Класс лексем
+class Token					
 {
 public:
 	char value[255];
@@ -13,7 +17,24 @@ public:
 };
 
 
-Token token;				// Лексема, определяется побочным действием функциии get_token.value()
+
+// Ассоциативный контейнер указателей на функции 
+map <string, double(*)(double)> mFunctions = 
+{
+	{"sin", sin },
+	{"cos", cos },
+	{"tg", tan },
+	{"sqrt", sqrt },
+	{"exp", exp },
+	{"ln", log },
+	{"lg", log10 },
+	{"arcsin", asin },
+	{"arctg", atan },
+	{"abs", abs }
+};
+
+
+Token token;					// Лексема, определяется побочным действием функциии get_token.value()
 const char * expr_rest;			// Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token.value()
 
 
@@ -36,7 +57,10 @@ void expr_atom(double *);                                   // Число --- в
 void get_token(void);									
 
 // Возвращение значения 1, если аргумент является разделителем
-int isdelim(char);			
+int isdelim(char);
+
+// Возвращение значения 1, если аргумент является функцией
+int isfunc(const char *);
 
 // Отображение сообщения об ошибке
 void serror(int);										
@@ -45,6 +69,14 @@ void serror(int);
 
 
 // Точка входа анализатора
+
+
+double parse(const string & str)
+{
+	return parse(str.c_str());
+}
+
+
 double parse(const char * const expr)
 {
 	expr_rest = expr;
@@ -177,15 +209,19 @@ void expr_func_brackets_atom(double * answer)
 {
 	if (token.type == Token::function)
 	{
+		string tempFunctionName(token.value);
+
 		get_token();
 
 		expr_brackets_atom(answer);
 
-		*answer = sin(*answer);   // заглушка - sin
+		
+		*answer = mFunctions[tempFunctionName](*answer);
 	}
 	else
 		expr_brackets_atom(answer);
 }
+
 
 
 // Выражение в скобках + число
@@ -233,28 +269,28 @@ void get_token(void)
 	temp = token.value;
 	*temp = '\0';								// обнуляем значение лексемы через указатель
 
-	if (!*expr_rest)									// конец выражения 
+	if (!*expr_rest)							// конец выражения 
 		return;	
 
-	while (isspace((unsigned char)*expr_rest))		// пропустить пробелы, символы табуляции 
+	while (isspace((unsigned char)*expr_rest))	// пропустить пробелы, символы табуляции 
 		++expr_rest;		
 
 	if (strchr("+-*/%^=()", *expr_rest))
 	{
 		token.type = Token::delimiter;			// устанавливаем тип лексемы
-		*temp++ = *expr_rest++;						// заполняем лексему символами из *expr_rest (один символ), смещаем указатели
+		*temp++ = *expr_rest++;					// заполняем лексему символами из *expr_rest (один символ), смещаем указатели
 	}
-	else if (expr_rest  == strstr(expr_rest, "sin"))
+	else if (isfunc(expr_rest))
 	{
 		token.type = Token::function;
-		while ((*expr_rest != '(') && !isdigit((unsigned char)*expr_rest))	//
-			*temp++ = *expr_rest++;					// заполняем лексему символами из *expr_rest, смещаем указатели
+		while ((*expr_rest != '(') && !isdigit((unsigned char)*expr_rest))	
+			*temp++ = *expr_rest++;				// заполняем лексему символами из *expr_rest, смещаем указатели
 	}
 	else if (isdigit((unsigned char)*expr_rest))
 	{
 		token.type = Token::number;				// устанавливаем тип лексемы
 		while (!isdelim(*expr_rest))	
-			*temp++ = *expr_rest++;					// заполняем лексему символами из *expr_rest, смещаем указатели
+			*temp++ = *expr_rest++;				// заполняем лексему символами из *expr_rest, смещаем указатели
 	}
 
 	*temp = '\0';								// закрываем строку
@@ -269,6 +305,22 @@ int isdelim(char c)
 	if (strchr(" +-/*%^=()", c) || c == 9 || c == '\r' || c == 0)
 		return 1;
 	return 0;
+}
+
+
+
+// Возвращение значения 1, если аргумент является функцией
+int isfunc(const char * expr_rest)
+{
+	int result = 0;
+	for (auto i = mFunctions.cbegin(); i != mFunctions.cend(); ++i)
+		if (expr_rest == strstr(expr_rest, i->first.c_str()))
+		{
+			result = 1;
+			break;
+		}
+	return result;
+
 }
 
 
