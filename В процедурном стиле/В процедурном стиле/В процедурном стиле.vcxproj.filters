@@ -21,9 +21,15 @@
     <ClCompile Include="Parsing.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="CalcMath.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Parsing.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="CalcMath.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

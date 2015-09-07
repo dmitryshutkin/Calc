@@ -118,10 +118,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CalcMath.cpp" />
     <ClCompile Include="Parsing.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CalcMath.h" />
     <ClInclude Include="Parsing.h" />
   </ItemGroup>
   <ItemGroup>

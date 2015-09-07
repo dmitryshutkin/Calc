@@ -2,6 +2,7 @@
 #include <map>
 
 #include "Parsing.h"
+#include "CalcMath.h"
 
 
 using namespace std;
@@ -21,16 +22,19 @@ public:
 // Ассоциативный контейнер указателей на функции 
 map <string, double(*)(double)> mFunctions = 
 {
-	{"sin", sin },
-	{"cos", cos },
-	{"tg", tan },
-	{"sqrt", sqrt },
-	{"exp", exp },
-	{"ln", log },
-	{"lg", log10 },
-	{"arcsin", asin },
-	{"arctg", atan },
-	{"abs", abs }
+	{ "sin", sin },
+	{ "cos", cos },
+	{ "tg", tan },
+	{ "ctg", ctg },
+	{ "arcsin", asin },
+	{ "arccos", arccos },
+	{ "arctg", atan },
+	{ "arcctg", arcctg },
+	{ "sqrt", sqrt },
+	{ "exp", exp },
+	{ "ln", log },
+	{ "lg", log10 },
+	{ "abs", abs }
 };
 
 
@@ -290,7 +294,7 @@ void get_token(void)
 	{
 		token.type = Token::number;				// устанавливаем тип лексемы
 		while (!isdelim(*expr_rest))	
-			*temp++ = *expr_rest++;				// заполняем лексему символами из *expr_rest, смещаем указатели
+			*temp++ = *expr_rest++;				// заполняем лексему символами из *expr_rest, смещаем указатели на шаге
 	}
 
 	*temp = '\0';								// закрываем строку
@@ -313,8 +317,8 @@ int isdelim(char c)
 int isfunc(const char * expr_rest)
 {
 	int result = 0;
-	for (auto i = mFunctions.cbegin(); i != mFunctions.cend(); ++i)
-		if (expr_rest == strstr(expr_rest, i->first.c_str()))
+	for (auto i: mFunctions)	// Viva La STL!!!
+		if (expr_rest == strstr(expr_rest, i.first.c_str()))
 		{
 			result = 1;
 			break;
