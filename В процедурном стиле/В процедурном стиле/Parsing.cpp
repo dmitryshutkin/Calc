@@ -34,10 +34,10 @@ map <string, double(*)(double)> mFunctions =
 };
 
 
+
+// Общедоступные данные
 Token token;					// Лексема, определяется побочным действием функциии get_token.value()
 const char * expr_rest;			// Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token.value()
-
-
 
 
 
@@ -53,7 +53,7 @@ void expr_func_brackets_atom(double *);                     // Функция + 
 void expr_brackets_atom(double *);                          // Выражение в скобках + число
 void expr_atom(double *);                                   // Число --- выход из рекурсивного спуска
 
-// Определение следующей лексемы в выражении и вида лексемы
+// Определение следующей лексемы в выражении
 void get_token(void);									
 
 // Возвращение значения 1, если аргумент является разделителем
@@ -216,7 +216,7 @@ void expr_func_brackets_atom(double * answer)
 		expr_brackets_atom(answer);
 
 		
-		*answer = mFunctions[tempFunctionName](*answer);
+		*answer = mFunctions[tempFunctionName](*answer);	// вызываем функцию по указателю из ассоциативного контейнера mFunctions по ключу tempFunctionName. Viva La STL!!!
 	}
 	else
 		expr_brackets_atom(answer);
@@ -231,7 +231,7 @@ void expr_brackets_atom(double * answer)
 	{
 		get_token();
 		expr_sum_mult_pow_sign_func_brackets_atom(answer);	// вычисление подвыражения в выражении в скобках, в результате побочного действия должен остаться token == ')'
-		if (*token.value != ')')	// Отсутствует закрывающая скобка
+		if (*token.value != ')')							// Отсутствует закрывающая скобка
 		{
 			serror(1);
 			*answer = nanf("");
@@ -320,7 +320,6 @@ int isfunc(const char * expr_rest)
 			break;
 		}
 	return result;
-
 }
 
 
