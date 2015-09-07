@@ -1,4 +1,4 @@
-#ifndef CALCTREE
+п»ї#ifndef CALCTREE
 #define CALCTREE
 #pragma once
 
@@ -13,12 +13,13 @@ using std::string;
 
 class CalcTree
 {
-	SyntaxCalcTree * syntaxCalcTree;	// синтаксический анализ дерева вычислений
-	CalcTree();							// запрещаем конструктор по умолчанию
 public:
 	CalcTree(const string &);
 	~CalcTree();
 	int result();
+private:
+	SyntaxCalcTree * syntaxCalcTree;	// СЃРёРЅС‚Р°РєСЃРёС‡РµСЃРєРёР№ Р°РЅР°Р»РёР· РґРµСЂРµРІР° РІС‹С‡РёСЃР»РµРЅРёР№
+	CalcTree();							// Р·Р°РїСЂРµС‰Р°РµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 };
 
 #endif

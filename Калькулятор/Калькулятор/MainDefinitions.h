@@ -1,4 +1,4 @@
-#ifndef MAINDEFINITIONS
+﻿#ifndef MAINDEFINITIONS
 #define MAINDEFINITIONS
 #pragma once
 

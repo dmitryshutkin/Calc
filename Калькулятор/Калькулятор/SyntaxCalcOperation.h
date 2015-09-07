@@ -1,4 +1,4 @@
-#ifndef CALCOPERATION
+﻿#ifndef CALCOPERATION
 #define CALCOPERATION
 #pragma once
 

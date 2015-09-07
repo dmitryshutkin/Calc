@@ -1,4 +1,4 @@
-#ifndef SYNTAXCALCTREE
+﻿#ifndef SYNTAXCALCTREE
 #define SYNTAXCALCTREE
 #pragma once
 

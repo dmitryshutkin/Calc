@@ -1,4 +1,4 @@
-#include "SyntaxCalcOperation.h"
+п»ї#include "SyntaxCalcOperation.h"
 #include "SyntaxCalcTree.h"
 
 using namespace std;
@@ -7,5 +7,5 @@ using namespace std;
 
 int SyntaxCalcOperation::operator()(SyntaxCalcTree * a, SyntaxCalcTree * b)
 {
-	return 0;   // заглушка
-} // ! SyntaxCalcOperation::operator()(SyntaxCalcTree * , SyntaxCalcTree * )
+	return 0;   // Р·Р°РіР»СѓС€РєР°
+} // ! SyntaxCalcOperation::operator()()

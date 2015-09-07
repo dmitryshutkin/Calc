@@ -1,4 +1,4 @@
-#include "CalcTree.h"
+п»ї#include "CalcTree.h"
 #include <iostream>
 
 using namespace std;
@@ -13,13 +13,13 @@ CalcTree::CalcTree()
 
 CalcTree::CalcTree(const string & str)
 {
-	// Лексический анализ. Разбивка строки на список лексем
+	// Р›РµРєСЃРёС‡РµСЃРєРёР№ Р°РЅР°Р»РёР·. Р Р°Р·Р±РёРІРєР° СЃС‚СЂРѕРєРё РЅР° СЃРїРёСЃРѕРє Р»РµРєСЃРµРј
 	vector<string> tokens;
 	string token("");
 	int i = 0;
 	while (i < str.size())
 	{
-		while ((i < str.size()) && (isdigit((unsigned char)str[i])))  // Проверить ленивость вычислений, чтобы избежать выход i за пределы допустимых значений!
+		while ((i < str.size()) && (isdigit((unsigned char)str[i])))  // РџСЂРѕРІРµСЂРёС‚СЊ Р»РµРЅРёРІРѕСЃС‚СЊ РІС‹С‡РёСЃР»РµРЅРёР№, С‡С‚РѕР±С‹ РёР·Р±РµР¶Р°С‚СЊ РІС‹С…РѕРґ i Р·Р° РїСЂРµРґРµР»С‹ РґРѕРїСѓСЃС‚РёРјС‹С… Р·РЅР°С‡РµРЅРёР№!
 			token += str[i++];
 		if (token != "")
 		{
@@ -34,22 +34,22 @@ CalcTree::CalcTree(const string & str)
 			tokens.push_back("*");
 		if (str[i] == '/')
 			tokens.push_back("/");
-		/*if (str[i] == '(')
+		if (str[i] == '(')
 			tokens.push_back("(");
 		if (str[i] == ')')
-			tokens.push_back(")");*/
+			tokens.push_back(")");
 		++i;
 	}
 	
-	// Отладочная информация
-	cout << "Список лексем:" << endl;
+	// РћС‚Р»Р°РґРѕС‡РЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ
+	cout << "РЎРїРёСЃРѕРє Р»РµРєСЃРµРј:" << endl;
 	for (int i = 0; i < tokens.size(); ++i)
-		cout << tokens[i] << endl;
+		cout << "\"" << tokens[i] << "\"" << endl;
 
-	// Создаем дерево вычислений из массива лексических единиц
+	// РЎРѕР·РґР°РµРј РґРµСЂРµРІРѕ РІС‹С‡РёСЃР»РµРЅРёР№ РёР· РјР°СЃСЃРёРІР° Р»РµРєСЃРёС‡РµСЃРєРёС… РµРґРёРЅРёС†
 	syntaxCalcTree = new SyntaxCalcTree(tokens);
 
-} // ! CalcTree::CalcTree(string)
+} // ! CalcTree::CalcTree()
 
 
 

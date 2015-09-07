@@ -1,4 +1,4 @@
-#include "SyntaxCalcTree.h"
+п»ї#include "SyntaxCalcTree.h"
 #include <iostream>
 
 using namespace std;
@@ -14,12 +14,12 @@ int SyntaxCalcTree::result()
 
 SyntaxCalcTree::SyntaxCalcTree(const vector<string> & tokens)
 {
-	// Синтаксический анализ. Создание дерева вычислений из массива лексем
+	// РЎРёРЅС‚Р°РєСЃРёС‡РµСЃРєРёР№ Р°РЅР°Р»РёР·. РЎРѕР·РґР°РЅРёРµ РґРµСЂРµРІР° РІС‹С‡РёСЃР»РµРЅРёР№ РёР· РјР°СЃСЃРёРІР° Р»РµРєСЃРµРј
 
-	// Разбиваем список лексем на пары, начиная с первого оператора, предполагаем корректный ввод
+	// Р Р°Р·Р±РёРІР°РµРј СЃРїРёСЃРѕРє Р»РµРєСЃРµРј РЅР° РїР°СЂС‹, РЅР°С‡РёРЅР°СЏ СЃ РїРµСЂРІРѕРіРѕ РѕРїРµСЂР°С‚РѕСЂР°, РїСЂРµРґРїРѕР»Р°РіР°РµРј РєРѕСЂСЂРµРєС‚РЅС‹Р№ РІРІРѕРґ
 	
-	a = b = nullptr;  // Заглушка
+	a = b = nullptr;  // Р—Р°РіР»СѓС€РєР°
 
-} // ! SyntaxCalcTree::SyntaxCalcTree(const vector<string> & )
+} // ! SyntaxCalcTree::SyntaxCalcTree()
 
 
