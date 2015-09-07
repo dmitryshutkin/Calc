@@ -40,8 +40,8 @@ map <string, double(*)(double)> mFunctions =
 
 
 // Общедоступные данные
-Token token;					// Лексема, определяется побочным действием функциии get_token.value()
-const char * expr_rest;			// Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token.value()
+Token token;                    // Лексема, определяется побочным действием функциии get_token.value()
+const char * expr_rest;         // Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token.value()
 
 
 
