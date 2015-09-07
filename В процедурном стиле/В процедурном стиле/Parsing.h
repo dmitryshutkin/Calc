@@ -4,7 +4,7 @@
 #pragma once
 
 
-double parse(const char * const);
+double parse(const char * );
 
 
 #endif

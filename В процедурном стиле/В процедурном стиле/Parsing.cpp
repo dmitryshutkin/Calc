@@ -24,16 +24,16 @@ public:
 // Цепочка вызовов:
 // Сумма -> произведение -> степень -> унарный оператор -> функция -> выражение в скобках -> число
 
-void expr_sum_mult_pow_sign_func_brackets_atom(double *, char * &, Token &);   // Сумма + произведение + степень + унарный оператор + функция + выражение в скобках + число
-void expr_mult_pow_sign_func_brackets_atom(double *, char * &, Token &);       // Произведение + степень + унарный оператор + функция + выражение в скобках + число
-void expr_pow_sign_func_brackets_atom(double *, char * &, Token &);            // Степень + унарный оператор + функция + выражение в скобках + число
-void expr_sign_func_brackets_atom(double *, char * &, Token &);                // Унарный оператор + функция + выражение в скобках + число
-void expr_func_brackets_atom(double *, char * &, Token &);                     // Функция + выражение в скобках + число
-void expr_brackets_atom(double *, char * &, Token &);                          // Выражение в скобках + число
-void expr_atom(double *, char * &, Token &);                                   // Число --- выход из рекурсивного спуска
+void expr_sum_mult_pow_sign_func_brackets_atom(double *, const char * &, Token &);   // Сумма + произведение + степень + унарный оператор + функция + выражение в скобках + число
+void expr_mult_pow_sign_func_brackets_atom(double *, const char * &, Token &);       // Произведение + степень + унарный оператор + функция + выражение в скобках + число
+void expr_pow_sign_func_brackets_atom(double *, const char * &, Token &);            // Степень + унарный оператор + функция + выражение в скобках + число
+void expr_sign_func_brackets_atom(double *, const char * &, Token &);                // Унарный оператор + функция + выражение в скобках + число
+void expr_func_brackets_atom(double *, const char * &, Token &);                     // Функция + выражение в скобках + число
+void expr_brackets_atom(double *, const char * &, Token &);                          // Выражение в скобках + число
+void expr_atom(double *, const char * &, Token &);                                   // Число --- выход из рекурсивного спуска
 
 // Определение следующей лексемы в выражении и вида лексемы
-void get_token(char * &, Token &);
+void get_token(const char * &, Token &);
 
 // Возвращение значения 1, если аргумент является разделителем
 int isdelim(char);			
@@ -45,20 +45,15 @@ void serror(int);
 
 
 // Точка входа анализатора
-double parse(const char * const expr)
+double parse(const char * expr)
 {
 	double answer;
-	char expr_rest[255];			// Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token()
-	char * expr_rest_ptr = expr_rest;
-
+	const char * expr_rest;			// Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token()
 	Token token;					// Лексема, определяется побочным действием функциии get_token()
 	
+	expr_rest = expr;
 
-
-	strcpy_s(expr_rest, 255, expr);
-	//*expr_rest = *expr;
-
-	get_token(expr_rest_ptr, token);
+	get_token(expr_rest, token);
 
 	if (!*token.value)				// нулевая строка
 	{
@@ -66,7 +61,7 @@ double parse(const char * const expr)
 		return nanf("");
 	}
 
-	expr_sum_mult_pow_sign_func_brackets_atom(&answer, expr_rest_ptr, token);
+	expr_sum_mult_pow_sign_func_brackets_atom(&answer, expr_rest, token);
 
 	if (*token.value)				// последней лексемой должен быть ноль
 	{
@@ -81,7 +76,7 @@ double parse(const char * const expr)
 
 
 // Сумма + произведение + степень + унарный оператор + функция + выражение в скобках + число
-void expr_sum_mult_pow_sign_func_brackets_atom(double * answer, char * & expr_rest, Token & token)
+void expr_sum_mult_pow_sign_func_brackets_atom(double * answer, const char * & expr_rest, Token & token)
 {
 	register char  op;
 	double temp;
@@ -108,7 +103,7 @@ void expr_sum_mult_pow_sign_func_brackets_atom(double * answer, char * & expr_re
 
 
 // Произведение + степень + унарный оператор + функция + выражение в скобках + число
-void expr_mult_pow_sign_func_brackets_atom(double * answer, char * & expr_rest, Token & token)
+void expr_mult_pow_sign_func_brackets_atom(double * answer, const char * & expr_rest, Token & token)
 {
 	register char op;
 	double temp;
@@ -144,7 +139,7 @@ void expr_mult_pow_sign_func_brackets_atom(double * answer, char * & expr_rest, 
 
 
 // Степень + унарный оператор + функция + выражение в скобках + число
-void expr_pow_sign_func_brackets_atom(double * answer, char * & expr_rest, Token & token)
+void expr_pow_sign_func_brackets_atom(double * answer, const char * & expr_rest, Token & token)
 {	
 	expr_sign_func_brackets_atom(answer, expr_rest, token);
 
@@ -160,7 +155,7 @@ void expr_pow_sign_func_brackets_atom(double * answer, char * & expr_rest, Token
 
 
 // Унарный оператор + функция + выражение в скобках + число
-void expr_sign_func_brackets_atom(double * answer, char * & expr_rest, Token & token)
+void expr_sign_func_brackets_atom(double * answer, const char * & expr_rest, Token & token)
 {
 	register char  op;
 
@@ -180,7 +175,7 @@ void expr_sign_func_brackets_atom(double * answer, char * & expr_rest, Token & t
 
 
 // Функция + выражение в скобках + число
-void expr_func_brackets_atom(double * answer, char * & expr_rest, Token & token)
+void expr_func_brackets_atom(double * answer, const char * & expr_rest, Token & token)
 {
 	if (token.type == Token::function)
 	{
@@ -196,7 +191,7 @@ void expr_func_brackets_atom(double * answer, char * & expr_rest, Token & token)
 
 
 // Выражение в скобках + число
-void expr_brackets_atom(double * answer, char * & expr_rest, Token & token)
+void expr_brackets_atom(double * answer, const char * & expr_rest, Token & token)
 {
 	if ((*token.value == '('))
 	{
@@ -216,7 +211,7 @@ void expr_brackets_atom(double * answer, char * & expr_rest, Token & token)
 
 
 // Число --- выход из рекурсивного спуска
-void expr_atom(double * answer, char * & expr_rest, Token & token)
+void expr_atom(double * answer, const char * & expr_rest, Token & token)
 {
 	if (token.type == Token::number)
 	{
@@ -232,7 +227,7 @@ void expr_atom(double * answer, char * & expr_rest, Token & token)
 
 
 // Возврат очередной лексемы
-void get_token(char * & expr_rest, Token & token)
+void get_token(const char * & expr_rest, Token & token)
 {
 	register char * temp;
 	token.type = Token::undefined;						// обнуляем тип лексемы
@@ -266,7 +261,7 @@ void get_token(char * & expr_rest, Token & token)
 	*temp = '\0';										// закрываем строку
 
 	// Отладочная информация
-	cout << "Token: " << token.value << "  token type: " << token.type << "  expressinon rest: " << expr_rest << endl;
+	// cout << "Token: " << token.value << "  token type: " << token.type << "  expressinon rest: " << expr_rest << endl;
 }
 
 
