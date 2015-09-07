@@ -8,20 +8,13 @@ using namespace std;
 class Token					// Класс лексем
 {
 public:
-	enum Type
-	{
-		undefined,
-		delimiter,
-		number,
-		function
-	};
 	char value[255];
-	Type type;				// Вид лексемы, определяется функцией get_token()
+	enum { undefined, delimiter, number, function } type;				
 };
 
 
 Token token;				// Лексема, определяется побочным действием функциии get_token.value()
-const char * expr;			// Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token.value()
+const char * expr_rest;			// Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token.value()
 
 
 
@@ -52,9 +45,9 @@ void serror(int);
 
 
 // Точка входа анализатора
-double parse(const char * const p)
+double parse(const char * const expr)
 {
-	expr = p;
+	expr_rest = expr;
 
 	double answer; 
 
@@ -236,35 +229,35 @@ void get_token(void)
 {
 	register char * temp;
 
-	token.type = Token::undefined;		// обнуляем тип лексемы
+	token.type = Token::undefined;				// обнуляем тип лексемы
 	temp = token.value;
-	*temp = '\0';				// обнуляем значение лексемы через указатель
+	*temp = '\0';								// обнуляем значение лексемы через указатель
 
-	if (!*expr)					// конец выражения 
+	if (!*expr_rest)									// конец выражения 
 		return;	
 
-	while (isspace((unsigned char)*expr))		// пропустить пробелы, символы табуляции 
-		++expr;		
+	while (isspace((unsigned char)*expr_rest))		// пропустить пробелы, символы табуляции 
+		++expr_rest;		
 
-	if (strchr("+-*/%^=()", *expr))
+	if (strchr("+-*/%^=()", *expr_rest))
 	{
-		token.type = Token::delimiter;	// устанавливаем тип лексемы
-		*temp++ = *expr++;		// заполняем лексему символами из *expr (один символ), смещаем указатели
+		token.type = Token::delimiter;			// устанавливаем тип лексемы
+		*temp++ = *expr_rest++;						// заполняем лексему символами из *expr_rest (один символ), смещаем указатели
 	}
-	else if (expr  == strstr(expr, "sin"))
+	else if (expr_rest  == strstr(expr_rest, "sin"))
 	{
 		token.type = Token::function;
-		while ((*expr != '(') && !isdigit((unsigned char)*expr))	//
-			*temp++ = *expr++;	// заполняем лексему символами из *expr, смещаем указатели
+		while ((*expr_rest != '(') && !isdigit((unsigned char)*expr_rest))	//
+			*temp++ = *expr_rest++;					// заполняем лексему символами из *expr_rest, смещаем указатели
 	}
-	else if (isdigit((unsigned char)*expr))
+	else if (isdigit((unsigned char)*expr_rest))
 	{
-		token.type = Token::number;		// устанавливаем тип лексемы
-		while (!isdelim(*expr))	
-			*temp++ = *expr++;	// заполняем лексему символами из *expr, смещаем указатели
+		token.type = Token::number;				// устанавливаем тип лексемы
+		while (!isdelim(*expr_rest))	
+			*temp++ = *expr_rest++;					// заполняем лексему символами из *expr_rest, смещаем указатели
 	}
 
-	*temp = '\0';				// закрываем строку
+	*temp = '\0';								// закрываем строку
 }
 
 
