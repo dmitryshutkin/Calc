@@ -1,4 +1,4 @@
-#ifndef CALCMATH
+﻿#ifndef CALCMATH
 #define CALCMATH
 #pragma once
 
