@@ -1,4 +1,4 @@
-п»ї#include <iostream>
+#include <iostream>
 #include <string>
 #include <locale>
 
@@ -16,13 +16,13 @@ int main(void)
 	string str;
 
 	cout << BELL;
-	while((cout << " >>  ") && getline(cin, str))
-	{	
+	while ((cout << " >>  ") && getline(cin, str))
+	{
 		if (str.empty())
 			break;
 		else if (str == "?")
 		{
-			cout << BELL << " =>     РљРѕРјР°РЅРґС‹ РёРЅС‚РµСЂРїСЂРµС‚Р°С‚РѕСЂР°:\n =>       \"cls\" - РѕС‡РёСЃС‚РєР° РєРѕРЅСЃРѕР»Рё\n =>       Enter - Р·Р°РІРµСЂС€РµРЅРёРµ СЂР°Р±РѕС‚С‹" << '\n' << endl;
+			cout << BELL << " =>     Команды интерпретатора:\n =>       \"cls\" - очистка консоли\n =>       Enter - завершение работы" << '\n' << endl;
 			continue;
 		}
 		else if (str == "cls")
@@ -32,8 +32,8 @@ int main(void)
 			cout << BELL;
 			continue;
 		}
-		cout << BELL << " =>  " << parse(str) << '\n' << endl;		
-	} 
+		cout << BELL << " =>  " << parse(str) << '\n' << endl;
+	}
 	cout << BELL;
 	return 0;
 }

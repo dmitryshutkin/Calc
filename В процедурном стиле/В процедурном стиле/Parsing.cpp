@@ -19,7 +19,7 @@ public:
 
 
 
-// Ассоциативный контейнер указателей на функции 
+// Контейнер указателей на математические функции 
 map <string, double(*)(double)> mFunctions = 
 {
 	{ "sin", sin },
@@ -40,8 +40,8 @@ map <string, double(*)(double)> mFunctions =
 
 
 // Общедоступные данные
-Token token;                    // Лексема, определяется побочным действием функциии get_token.value()
-const char * expr_rest;         // Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после get_token.value()
+Token token;                    // Лексема, определяется побочным действием функциии get_token()
+const char * rest_expr;         // Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после каждого вызова get_token()
 
 
 
@@ -55,18 +55,18 @@ void expr_pow_sign_func_brackets_atom(double *);            // Степень + 
 void expr_sign_func_brackets_atom(double *);                // Унарный оператор + функция + выражение в скобках + число
 void expr_func_brackets_atom(double *);                     // Функция + выражение в скобках + число
 void expr_brackets_atom(double *);                          // Выражение в скобках + число
-void expr_atom(double *);                                   // Число --- выход из рекурсивного спуска
+void expr_atom(double *);                                   // Число --- выход из рекурсивного спуска по цепочке вызовов
 
-// Определение следующей лексемы в выражении
+// Определяем следующую лексему в выражении
 void get_token(void);									
 
-// Возвращение значения 1, если аргумент является разделителем
+// Возвращаем значение 1, если аргумент является разделителем
 int isdelim(char);
 
-// Возвращение значения 1, если аргумент является функцией
+// Возвращаем значения 1, если аргумент является функцией
 int isfunc(const char *);
 
-// Отображение сообщения об ошибке
+// Отображаем сообщения об ошибке
 void serror(int);										
 
 
@@ -83,7 +83,7 @@ double parse(const string & str)
 
 double parse(const char * const expr)
 {
-	expr_rest = expr;
+	rest_expr = expr;
 
 	double answer; 
 
@@ -157,7 +157,7 @@ void expr_mult_pow_sign_func_brackets_atom(double * answer)
 		case '/':
 			if (temp == 0.0)
 			{
-				serror(3); // деление на нуль
+				serror(3); // деление на ноль
 				*answer = nanf("");
 			}
 			else 
@@ -234,7 +234,7 @@ void expr_brackets_atom(double * answer)
 	if ((*token.value == '('))
 	{
 		get_token();
-		expr_sum_mult_pow_sign_func_brackets_atom(answer);	// вычисление подвыражения в выражении в скобках, в результате побочного действия должен остаться token == ')'
+		expr_sum_mult_pow_sign_func_brackets_atom(answer);  // вычисление подвыражения в выражении в скобках, в результате побочного действия должен остаться token == ')'
 		if (*token.value != ')')                            // Отсутствует закрывающая скобка
 		{
 			serror(1);
@@ -264,7 +264,7 @@ void expr_atom(double * answer)
 
 
 
-// Возврат очередной лексемы
+// Определяем следующую лексему в выражении
 void get_token(void)
 {
 	register char * temp;
@@ -273,28 +273,28 @@ void get_token(void)
 	temp = token.value;
 	*temp = '\0';                               // обнуляем значение лексемы через указатель
 
-	if (!*expr_rest)                            // конец выражения 
+	if (!*rest_expr)                            // конец выражения 
 		return;	
 
-	while (isspace((unsigned char)*expr_rest))  // пропустить пробелы, символы табуляции 
-		++expr_rest;		
+	while (isspace((unsigned char)*rest_expr))  // пропустить пробелы, символы табуляции 
+		++rest_expr;		
 
-	if (strchr("+-*/%^=()", *expr_rest))
+	if (strchr("+-*/%^=()", *rest_expr))
 	{
 		token.type = Token::delimiter;          // устанавливаем тип лексемы
-		*temp++ = *expr_rest++;                 // заполняем лексему символами из *expr_rest (один символ), смещаем указатели
+		*temp++ = *rest_expr++;                 // заполняем лексему символами из *rest_expr (один символ), смещаем указатели
 	}
-	else if (isfunc(expr_rest))
+	else if (isfunc(rest_expr))
 	{
 		token.type = Token::function;
-		while ((*expr_rest != '(') && !isdigit((unsigned char)*expr_rest))	
-			*temp++ = *expr_rest++;             // заполняем лексему символами из *expr_rest, смещаем указатели
+		while ((*rest_expr != '(') && !isdigit((unsigned char)*rest_expr))	
+			*temp++ = *rest_expr++;             // заполняем лексему символами из *rest_expr, смещаем указатели
 	}
-	else if (isdigit((unsigned char)*expr_rest))
+	else if (isdigit((unsigned char)*rest_expr))
 	{
 		token.type = Token::number;             // устанавливаем тип лексемы
-		while (!isdelim(*expr_rest))	
-			*temp++ = *expr_rest++;             // заполняем лексему символами из *expr_rest, смещаем указатели на шаге
+		while (!isdelim(*rest_expr))	
+			*temp++ = *rest_expr++;             // заполняем лексему символами из *rest_expr, смещаем указатели на шаге
 	}
 
 	*temp = '\0';                               // закрываем строку
@@ -302,7 +302,7 @@ void get_token(void)
 
 
 
-// Возвращение значения 1, если аргумент является разделителем
+// Возвращаем значение 1, если аргумент является разделителем
 int isdelim(char c)
 {
 
@@ -313,12 +313,12 @@ int isdelim(char c)
 
 
 
-// Возвращение значения 1, если аргумент является функцией
+// Возвращаем значения 1, если аргумент является функцией
 int isfunc(const char * expr_rest)
 {
 	int result = 0;
-	for (auto i: mFunctions)	// Viva La STL!!!
-		if (expr_rest == strstr(expr_rest, i.first.c_str()))
+	for (const auto & elem: mFunctions)	  // Viva La STL!!!
+		if (expr_rest == strstr(expr_rest, elem.first.c_str()))
 		{
 			result = 1;
 			break;
@@ -328,13 +328,13 @@ int isfunc(const char * expr_rest)
 
 
 
-// Отображение сообщения об ошибке
+// Отображаем сообщения об ошибке
 void serror(int error)
 {
 	static char * e[] = {
 		" =>  Синтаксическая ошибка",
 		" =>  Несбалансированные скобки",
-		" =>  Нет выражения",
+		" =>  Неизвестный оператор",
 		" =>  Деление на ноль"
 	};
 	cout << e[error] << endl;
