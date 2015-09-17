@@ -9,12 +9,12 @@ using namespace std;
 
 
 
-// Класс лексем
+// Тип описыввающий лексемы
 class Token
 {
 public:
-	char value[255];
-	enum { undefined, delimiter, number, function } type;
+	char value[255];                                          // значение лексемы
+	enum { undefined, delimiter, number, function } type;     // тип
 };
 
 
@@ -41,13 +41,13 @@ map <string, double(*)(double)> mFunctions =
 
 // Общедоступные данные
 Token token;                    // Лексема, определяется побочным действием функциии get_token()
-const char * rest_expr;         // Указатель на строку выражения, определяется побочным действием функциии parse(), обрезается после каждого вызова get_token()
+const char * rest_expr;         // Нерасшифрованная часть выражения, определяется побочным действием функциии parse(), обрезается после каждого вызова get_token()
 
 
 
-								// Функции рекурсивной обработки выражения
-								// Цепочка вызовов:
-								// Сумма -> произведение -> степень -> унарный оператор -> функция -> выражение в скобках -> число
+// Функции рекурсивной обработки выражения
+// Цепочка вызовов:
+// Сумма -> произведение -> степень -> унарный оператор -> функция -> выражение в скобках -> число
 
 void expr_sum_mult_pow_sign_func_brackets_atom(double *);   // Сумма + произведение + степень + унарный оператор + функция + выражение в скобках + число
 void expr_mult_pow_sign_func_brackets_atom(double *);       // Произведение + степень + унарный оператор + функция + выражение в скобках + число
@@ -57,17 +57,20 @@ void expr_func_brackets_atom(double *);                     // Функция + 
 void expr_brackets_atom(double *);                          // Выражение в скобках + число
 void expr_atom(double *);                                   // Число --- выход из рекурсивного спуска по цепочке вызовов
 
-															// Определяем следующую лексему в выражении
-void get_token(void);
 
-// Возвращаем значение 1, если аргумент является разделителем
+
+// Выделение лекссеммы из выражения, обрезка выражения													
+void get_token(void);                                       
+
+// 1, если аргумент является разделителем
 int isdelim(char);
 
-// Возвращаем значения 1, если аргумент является функцией
+// 1, если аргумент является функцией
 int isfunc(const char *);
 
-// Отображаем сообщения об ошибке
+// Сообщения об ошибке
 void serror(int);
+
 
 
 
@@ -75,12 +78,14 @@ void serror(int);
 // Точка входа анализатора
 
 
+// Вызов по строке std::string
 double parse(const string & str)
 {
 	return parse(str.c_str());
 }
 
 
+// Вызов по строке в стиле C
 double parse(const char * const expr)
 {
 	rest_expr = expr;
@@ -97,14 +102,13 @@ double parse(const char * const expr)
 
 	expr_sum_mult_pow_sign_func_brackets_atom(&answer);
 
-	if (*token.value)		// последней лексемой должен быть ноль
+	if (*token.value)		// последней лексемой должен быть "\0"
 	{
 		serror(0);
 		answer = nanf("");
 	}
 
 	return answer;
-
 }
 
 
