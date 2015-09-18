@@ -1,4 +1,4 @@
-#include "Main.h"
+п»ї#include "Main.h"
 #include "Parsing.h"
 
 #include <iostream>
@@ -19,9 +19,9 @@ int main(int argc, char * argv[])
 			break;
 		else if (str == "?")
 		{
-			cout << BELL << " =>     Команды интерпретатора:\n"
-				            " =>       cls - очистка консоли\n"
-				            " =>       [Enter] - завершение работы\n" << endl;
+			cout << BELL << " =>     РљРѕРјР°РЅРґС‹ РёРЅС‚РµСЂРїСЂРµС‚Р°С‚РѕСЂР°:\n"
+				            " =>       cls - РѕС‡РёСЃС‚РєР° РєРѕРЅСЃРѕР»Рё\n"
+				            " =>       [Enter] - Р·Р°РІРµСЂС€РµРЅРёРµ СЂР°Р±РѕС‚С‹\n" << endl;
 			continue;
 		}
 		else if (str == "cls")

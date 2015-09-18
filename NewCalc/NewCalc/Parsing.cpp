@@ -1,4 +1,4 @@
-#include <string>
+п»ї#include <string>
 #include <map>
 #include <vector>
 
@@ -10,7 +10,7 @@ Parsing parse;
 
 using namespace std;
 
-// Контейнер указателей на математические функции 
+// РљРѕРЅС‚РµР№РЅРµСЂ СѓРєР°Р·Р°С‚РµР»РµР№ РЅР° РјР°С‚РµРјР°С‚РёС‡РµСЃРєРёРµ С„СѓРЅРєС†РёРё 
 static map <string, double(*)(double)> mFunctions =
 {
 	{ "sin", sin },
@@ -133,7 +133,7 @@ double Parsing::expr_func_brackets_atom(LexicalStruct & lexicalStruct)
 			return nanf("");
 		string tempFunctionName(lexicalStruct.current->value);
 		lexicalStruct.next();
-		return mFunctions[tempFunctionName](expr_brackets_atom(lexicalStruct));    // вызываем функцию по указателю из ассоциативного контейнера mFunctions по ключу tempFunctionName. Viva La STL!!!
+		return mFunctions[tempFunctionName](expr_brackets_atom(lexicalStruct));    // РІС‹Р·С‹РІР°РµРј С„СѓРЅРєС†РёСЋ РїРѕ СѓРєР°Р·Р°С‚РµР»СЋ РёР· Р°СЃСЃРѕС†РёР°С‚РёРІРЅРѕРіРѕ РєРѕРЅС‚РµР№РЅРµСЂР° mFunctions РїРѕ РєР»СЋС‡Сѓ tempFunctionName. Viva La STL!!!
 	}
 	else
 		return expr_brackets_atom(lexicalStruct);

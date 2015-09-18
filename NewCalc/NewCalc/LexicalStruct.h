@@ -1,4 +1,4 @@
-#ifndef LEXICALSTRUCT
+п»ї#ifndef LEXICALSTRUCT
 #define LEXICALSTRUCT
 
 #include "Main.h"
@@ -18,12 +18,12 @@ class Token;
 class LexicalStruct
 {
 public:
-	std::vector<Token> tokens;                                             // Массив лексем
-	std::vector<Token>::const_iterator current;                            // Текущая лексема
-	LexicalStruct(const std::string &);                                    // Конструктор объекта по строке, содержащей выражение, проводит лексический анализ строки
-	void next();                                                           // Берем следующую лексему
+	std::vector<Token> tokens;                                             // РњР°СЃСЃРёРІ Р»РµРєСЃРµРј
+	std::vector<Token>::const_iterator current;                            // РўРµРєСѓС‰Р°СЏ Р»РµРєСЃРµРјР°
+	LexicalStruct(const std::string &);                                    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РѕР±СЉРµРєС‚Р° РїРѕ СЃС‚СЂРѕРєРµ, СЃРѕРґРµСЂР¶Р°С‰РµР№ РІС‹СЂР°Р¶РµРЅРёРµ, РїСЂРѕРІРѕРґРёС‚ Р»РµРєСЃРёС‡РµСЃРєРёР№ Р°РЅР°Р»РёР· СЃС‚СЂРѕРєРё
+	void next();                                                           // Р‘РµСЂРµРј СЃР»РµРґСѓСЋС‰СѓСЋ Р»РµРєСЃРµРјСѓ
 private:
-	LexicalStruct() { };                                                   // Запрещаем конструктор по умолчанию
+	LexicalStruct() { };                                                   // Р—Р°РїСЂРµС‰Р°РµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 };
 
 
@@ -31,9 +31,9 @@ private:
 class Token
 {
 public:
-	std::string value;                                                    // Значение лексемы
+	std::string value;                                                    // Р—РЅР°С‡РµРЅРёРµ Р»РµРєСЃРµРјС‹
 	enum TokenType { undefined, delimiter, number, function };
-	TokenType type;                                                       // Тип
+	TokenType type;                                                       // РўРёРї
 	Token(const std::string & v, TokenType tt) :value(v), type(tt) { };
 private:
 	Token() { };

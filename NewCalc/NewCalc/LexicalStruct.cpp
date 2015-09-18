@@ -1,4 +1,4 @@
-#include "LexicalStruct.h"
+п»ї#include "LexicalStruct.h"
 
 #ifdef DEBUG
 	#include <iostream>
@@ -11,14 +11,14 @@ using namespace std;
 
 LexicalStruct::LexicalStruct(const string & expr)
 {
-	// Лексический анализ выражения
+	// Р›РµРєСЃРёС‡РµСЃРєРёР№ Р°РЅР°Р»РёР· РІС‹СЂР°Р¶РµРЅРёСЏ
 	string tmp;
 	for (int i = 0; i < expr.size(); ++i)
 	{
-		// Пробелы
+		// РџСЂРѕР±РµР»С‹
 		if (isspace(expr[i]))
 			continue;
-		// Цифры
+		// Р¦РёС„СЂС‹
 		if (isdigit(expr[i]))
 		{
 			tmp = expr[i];
@@ -36,7 +36,7 @@ LexicalStruct::LexicalStruct(const string & expr)
 			tokens.push_back(Token(tmp, Token::number));
 			tmp.clear();
 		}
-		// Функции
+		// Р¤СѓРЅРєС†РёРё
 		if (isalpha(expr[i]))
 		{
 			tmp = expr[i];
@@ -46,7 +46,7 @@ LexicalStruct::LexicalStruct(const string & expr)
 			tokens.push_back(Token(tmp, Token::function));
 			tmp.clear();
 		}
-		// Знаки
+		// Р—РЅР°РєРё
 		if ((i < expr.size()) && (strchr("+-*/^=()", expr[i])))
 		{
 			tmp = expr[i];
@@ -54,10 +54,10 @@ LexicalStruct::LexicalStruct(const string & expr)
 			tmp.clear();
 		}
 	}
-	// Установка указателя текущей лексемы на начало
+	// РЈСЃС‚Р°РЅРѕРІРєР° СѓРєР°Р·Р°С‚РµР»СЏ С‚РµРєСѓС‰РµР№ Р»РµРєСЃРµРјС‹ РЅР° РЅР°С‡Р°Р»Рѕ
 	current = tokens.cbegin();
 	#ifdef DEBUG
-		cout << "Лексический анализ:" << endl;
+		cout << "Р›РµРєСЃРёС‡РµСЃРєРёР№ Р°РЅР°Р»РёР·:" << endl;
 		for (auto i = current; i < tokens.cend(); i++)
 			cout << setw(7) << left << i->value << setw(5) << i->type << endl;
 	#endif
