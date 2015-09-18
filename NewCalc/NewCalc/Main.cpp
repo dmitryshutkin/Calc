@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
 			break;
 		else if (str == "?")
 		{
-			cout << BELL << " =>     Команды интерпретатора:\n"
+			cout << BELL << " =>     Команды транслятора:\n"
 				            " =>       cls - очистка консоли\n"
 				            " =>       [Enter] - завершение работы\n" << endl;
 			continue;

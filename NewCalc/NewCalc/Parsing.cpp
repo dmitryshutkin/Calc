@@ -39,13 +39,24 @@ double Parsing::operator()(const char * const expr)
 
 double Parsing::operator()(const string & expr)
 {
-	if (expr.empty())
-		return nanf("");
-	LexicalStruct lexicalStruct(expr);
-	double result = expr_sum_mult_pow_sign_func_brackets_atom(lexicalStruct);
-	if (lexicalStruct.current != lexicalStruct.tokens.cend())
-		return nanf("");
-	return result;
+	#ifdef DEBUG
+		// Проверка на наличие строки
+		if (expr.empty())
+			return nanf("");
+		// Лексический анализ
+		LexicalStruct lexicalStruct(expr);
+		// Синтаксический анализ методом рекурсивного спуска
+		double result = expr_sum_mult_pow_sign_func_brackets_atom(lexicalStruct);
+		// Проверка полноты обработки
+		if (lexicalStruct.current != lexicalStruct.tokens.cend())
+			return nanf("");
+		// Возврат
+		return result;
+	#endif
+	#ifndef DEBUG
+		// Лексический и синтаксический анализ
+		return expr_sum_mult_pow_sign_func_brackets_atom(LexicalStruct(expr));
+	#endif	
 }
 
 
@@ -58,7 +69,7 @@ double Parsing::expr_sum_mult_pow_sign_func_brackets_atom(LexicalStruct & lexica
 	while (
 			(lexicalStruct.current < lexicalStruct.tokens.cend()) && 
 			(((op = lexicalStruct.current->value) == "+") || (op == "-"))
-		)
+		  )
 	{
 		lexicalStruct.next();
 		temp = expr_mult_pow_sign_func_brackets_atom(lexicalStruct);
@@ -80,7 +91,7 @@ double Parsing::expr_mult_pow_sign_func_brackets_atom(LexicalStruct & lexicalStr
 	while (
 			(lexicalStruct.current < lexicalStruct.tokens.cend()) && 
 			(((op = lexicalStruct.current->value) == "*") || (op == "/"))
-		)
+		  )
 	{
 		lexicalStruct.next();
 		temp = expr_pow_sign_func_brackets_atom(lexicalStruct);
@@ -114,7 +125,7 @@ double Parsing::expr_pow_sign_func_brackets_atom(LexicalStruct & lexicalStruct)
 
 double Parsing::expr_sign_func_brackets_atom(LexicalStruct & lexicalStruct)
 {
-	if (lexicalStruct.current->value == "-")
+	if ((lexicalStruct.current < lexicalStruct.tokens.cend()) && (lexicalStruct.current->value == "-"))
 	{
 		lexicalStruct.next();
 		return -expr_func_brackets_atom(lexicalStruct);
@@ -127,7 +138,7 @@ double Parsing::expr_sign_func_brackets_atom(LexicalStruct & lexicalStruct)
 
 double Parsing::expr_func_brackets_atom(LexicalStruct & lexicalStruct)
 {
-	if (lexicalStruct.current->type == Token::function)
+	if ((lexicalStruct.current < lexicalStruct.tokens.cend()) && (lexicalStruct.current->type == Token::function))
 	{
 		if (!mFunctions.count(lexicalStruct.current->value))
 			return nanf("");
@@ -143,7 +154,7 @@ double Parsing::expr_func_brackets_atom(LexicalStruct & lexicalStruct)
 
 double Parsing::expr_brackets_atom(LexicalStruct & lexicalStruct)
 {
-	if (lexicalStruct.current->value == "(")
+	if ((lexicalStruct.current < lexicalStruct.tokens.cend()) && (lexicalStruct.current->value == "("))
 	{
 		lexicalStruct.next();
 		double temp = expr_sum_mult_pow_sign_func_brackets_atom(lexicalStruct);
@@ -163,7 +174,7 @@ double Parsing::expr_brackets_atom(LexicalStruct & lexicalStruct)
 
 double Parsing::expr_atom(LexicalStruct & lexicalStruct)
 {
-	if (lexicalStruct.current->type == Token::number)
+	if ((lexicalStruct.current < lexicalStruct.tokens.cend()) && (lexicalStruct.current->type == Token::number))
 	{
 		double temp = stod(lexicalStruct.current->value);
 		lexicalStruct.next();

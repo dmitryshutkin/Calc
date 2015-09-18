@@ -16,14 +16,14 @@ LexicalStruct::LexicalStruct(const string & expr)
 	for (int i = 0; i < expr.size(); ++i)
 	{
 		// Пробелы
-		if (isspace(expr[i]))
+		if (isspace((unsigned char)expr[i]))
 			continue;
 		// Цифры
-		if (isdigit(expr[i]))
+		if (isdigit((unsigned char)expr[i]))
 		{
 			tmp = expr[i];
 			++i;
-			while ((i < expr.size()) && ((isdigit(expr[i])) || expr[i] == ',' || expr[i] == '.'))
+			while ((i < expr.size()) && ((isdigit((unsigned char)expr[i])) || expr[i] == ',' || expr[i] == '.'))
 			{
 				if (expr[i] == '.')
 				{
@@ -37,11 +37,11 @@ LexicalStruct::LexicalStruct(const string & expr)
 			tmp.clear();
 		}
 		// Функции
-		if (isalpha(expr[i]))
+		if (isalpha((unsigned char)expr[i]))
 		{
 			tmp = expr[i];
 			++i;
-			while ((i < expr.size()) && (isalpha(expr[i])))
+			while ((i < expr.size()) && (isalpha((unsigned char)expr[i])))
 				tmp += expr[i++];				
 			tokens.push_back(Token(tmp, Token::function));
 			tmp.clear();
