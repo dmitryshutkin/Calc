@@ -36,7 +36,7 @@ LexicalStruct::LexicalStruct(const string & expr)
 			tokens.push_back(Token(tmp, Token::number));
 			tmp.clear();
 		}
-		// Функции
+		// Функции и константы
 		if (isalpha((unsigned char)expr[i]))
 		{
 			tmp = expr[i];

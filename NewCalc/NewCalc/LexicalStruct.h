@@ -1,9 +1,9 @@
 ﻿#ifndef LEXICALSTRUCT
 #define LEXICALSTRUCT
 
-#include "Main.h"
-
 #pragma once
+
+#include "Main.h"
 
 #include <string>
 #include <vector>
@@ -31,7 +31,7 @@ class Token
 {
 public:
 	std::string value;                                                    // Значение лексемы
-	enum TokenType { undefined, delimiter, number, function };
+	enum TokenType { undefined, delimiter, number, function, constant };
 	TokenType type;                                                       // Тип
 	Token(const std::string & v, TokenType tt) :value(v), type(tt) { };
 private:

@@ -3,6 +3,7 @@
 #pragma once
 
 
+
 double ctg(double);
 double arccos(double);
 double arcctg(double);

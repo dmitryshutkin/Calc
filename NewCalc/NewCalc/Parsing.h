@@ -1,16 +1,21 @@
 ﻿#ifndef PARSING
 #define PARSING
 
+#pragma once
+
+
 #include "Main.h"
+
+
+
+#define _USE_MATH_DEFINES
+
+#include "C:\Users\Dmitry\Source\Repos\Calc\Calc\Calc\CalcMath.h"
 #include "LexicalStruct.h"
 
-#pragma once
 #include <string>
 #include <map>
-#include "C:\Users\Dmitry\Source\Repos\Calc\Calc\Calc\CalcMath.h"
-
-
-// typedef std::map <std::string, double(*)(double)> tmFunctions;
+#include <cmath>
 
 
 class Parsing
@@ -43,6 +48,20 @@ public:
 		{ "lg", log10 },
 		{ "abs", abs }
 	};
+
+
+
+	// Контейнер констант, допускается добавление пользовательских значений
+	#ifdef M_PI 
+	#ifdef M_E
+	std::map <std::string, double> mConstants =
+	{
+		{ "Pi", M_PI },
+		{ "e", M_E }
+	};
+	#endif
+	#endif
+
 
 private:
 	

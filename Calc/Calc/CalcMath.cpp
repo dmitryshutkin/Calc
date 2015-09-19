@@ -1,7 +1,8 @@
 ﻿#define _USE_MATH_DEFINES 
-#include <cmath>
 
 #include "CalcMath.h"
+#include <cmath>
+
 
 
 double ctg(double x)
