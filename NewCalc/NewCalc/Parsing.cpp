@@ -3,31 +3,15 @@
 #include <vector>
 
 #include "Parsing.h"
-#include "C:\Users\Dmitry\Source\Repos\Calc\Calc\Calc\CalcMath.h"
 
 
+// Определяем объект
 Parsing parse;
 
+
+
+
 using namespace std;
-
-// Контейнер указателей на математические функции 
-static map <string, double(*)(double)> mFunctions =
-{
-	{ "sin", sin },
-	{ "cos", cos },
-	{ "tg", tan },
-	{ "ctg", ctg },
-	{ "arcsin", asin },
-	{ "arccos", arccos },
-	{ "arctg", atan },
-	{ "arcctg", arcctg },
-	{ "sqrt", sqrt },
-	{ "exp", exp },
-	{ "ln", log },
-	{ "lg", log10 },
-	{ "abs", abs }
-};
-
 
 
 double Parsing::operator()(const char * const expr)
@@ -39,7 +23,10 @@ double Parsing::operator()(const char * const expr)
 
 double Parsing::operator()(const string & expr)
 {
-	#ifdef DEBUG
+	#ifndef DEBUG
+		// Лексический и синтаксический анализ
+		return expr_sum_mult_pow_sign_func_brackets_atom(LexicalStruct(expr));
+	#else
 		// Проверка на наличие строки
 		if (expr.empty())
 			return nanf("");
@@ -53,10 +40,6 @@ double Parsing::operator()(const string & expr)
 		// Возврат
 		return result;
 	#endif
-	#ifndef DEBUG
-		// Лексический и синтаксический анализ
-		return expr_sum_mult_pow_sign_func_brackets_atom(LexicalStruct(expr));
-	#endif	
 }
 
 

@@ -6,9 +6,11 @@
 
 #pragma once
 #include <string>
+#include <map>
+#include "C:\Users\Dmitry\Source\Repos\Calc\Calc\Calc\CalcMath.h"
 
 
-
+// typedef std::map <std::string, double(*)(double)> tmFunctions;
 
 
 class Parsing
@@ -16,13 +18,34 @@ class Parsing
 
 public:
 
+	// Обработка выражений
+
 	double operator() (const std::string &);
 
 	double operator() (const char * const);
 
 
-private:
+	// Контейнер указателей на математические функции, допускается добавление пользовательских указателей
 
+	std::map <std::string, double(*)(double)> mFunctions =
+	{
+		{ "sin", sin },
+		{ "cos", cos },
+		{ "tg", tan },
+		{ "ctg", ctg },
+		{ "arcsin", asin },
+		{ "arccos", arccos },
+		{ "arctg", atan },
+		{ "arcctg", arcctg },
+		{ "sqrt", sqrt },
+		{ "exp", exp },
+		{ "ln", log },
+		{ "lg", log10 },
+		{ "abs", abs }
+	};
+
+private:
+	
 	// Функции рекурсивной обработки выражения
 	// Цепочка вызовов:
 	// Сумма -> произведение -> степень -> унарный оператор -> функция -> выражение в скобках -> число
@@ -38,6 +61,8 @@ private:
 
 };
 
+
+// Объявление объекта
 extern Parsing parse;
 
 #endif
