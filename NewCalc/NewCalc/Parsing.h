@@ -7,7 +7,7 @@
 #pragma once
 #include <string>
 #include <map>
-#include "C:\Users\Dmitry\Source\Repos\Calc\Calc\Calc\CalcMath.h"
+#include "CalcMath.h"
 
 
 // typedef std::map <std::string, double(*)(double)> tmFunctions;
