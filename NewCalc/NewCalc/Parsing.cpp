@@ -121,7 +121,7 @@ double Parsing::expr_sign_func_brackets_atom(LexicalStruct & lexicalStruct)
 
 
 double Parsing::expr_func_brackets_atom(LexicalStruct & lexicalStruct)
-{
+{    
 	if ((lexicalStruct.current < lexicalStruct.tokens.cend()) && (lexicalStruct.current->type == Token::function))
 	{
 		if (!mFunctions.count(lexicalStruct.current->value))
