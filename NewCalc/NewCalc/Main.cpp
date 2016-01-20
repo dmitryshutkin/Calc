@@ -12,7 +12,7 @@ int main(int argc, char * argv[])
 	setlocale(LC_ALL, "Russian");
 	string str;
 
-    if (argc >= 2)
+    if (argc > 1)
     {
         int i = 1;
         str = argv[i];
